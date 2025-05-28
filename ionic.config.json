@@ -1,0 +1,7 @@
+{
+  "name": "Face Analysis Pro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
