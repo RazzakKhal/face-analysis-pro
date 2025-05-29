@@ -8,10 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
-      },
-      {
         path: 'tab2',
         loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
       },
@@ -24,6 +20,14 @@ const routes: Routes = [
         loadChildren: () => import('../tabs/home/home.module').then(m => m.HomePageModule)
       },
       {
+        path: 'takepicture',
+        loadChildren: () => import('../tabs/takepicture/takepicture.module').then(m => m.TakepicturePageModule)
+      },
+      {
+        path: 'scan',
+        loadChildren: () => import('../tabs/scan/scan.module').then(m => m.ScanPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'
@@ -34,7 +38,12 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/home',
     pathMatch: 'full'
+  },
+  {
+    path: 'scan',
+    loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
   }
+
 ];
 
 @NgModule({

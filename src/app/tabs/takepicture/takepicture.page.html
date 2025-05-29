@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar class="header-white">
+    <div class="logo-centered">
+      <img src="assets/logodessinrogne.png" alt="Logo" class="logo-image" />
+      <span class="app-name">ANALYSIS PRO</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="main-content">
+    <!-- Face Frame -->
+    <div id="face-frame">
+      <div class="face-icon">
+        <i class="fa-solid fa-face-smile"></i>
+      </div>
+      <div class="face-circle-overlay"></div>
+    </div>
+
+    <!-- Photo Options -->
+    <div id="photo-options">
+      <button id="take-photo-btn">
+        <i class="fa-solid fa-camera"></i>
+        <span>Take a photo</span>
+      </button>
+
+      <button id="choose-photo-btn">
+        <i class="fa-solid fa-image"></i>
+        <span>Choose a photo</span>
+      </button>
+    </div>
+
+    <!-- Tips -->
+    <div id="photo-tips">
+      <h3>
+        <i class="fa-solid fa-lightbulb"></i>
+       Tips for a better analysis
+      </h3>
+      <ul>
+        <li><i class="fa-solid fa-check"></i> Good lighting, well-lit face</li>
+        <li><i class="fa-solid fa-check"></i> Unobstructed face, visible ears and forehead, neutral expression, facing the camera</li>
+        <li><i class="fa-solid fa-check"></i> No accessories (glasses, etc.) covering the face</li>
+      </ul>
+    </div>
+
+    <!-- Analyze Button -->
+    <button id="analyze-button" disabled>
+      Analyze
+    </button>
+    <p class="analyze-tip">Select a photo to enable analysis</p>
+  </div>
+</ion-content>
+

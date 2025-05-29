@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { ScanPageRoutingModule } from './scan-routing.module';
 
-import { HomePage } from './home.page';
+import { ScanPage } from './scan.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
-    
+    ScanPageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [ScanPage]
 })
-export class HomePageModule {}
+export class ScanPageModule {}
