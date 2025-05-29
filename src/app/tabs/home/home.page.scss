@@ -1,0 +1,16 @@
+
+.logo{
+    height: 60px;
+}
+
+ion-toolbar {
+  height: 80px; /* ou 80px */
+}
+
+.custom-title {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px; /* espacement entre logo et texte */
+}
