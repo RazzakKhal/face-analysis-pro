@@ -37,6 +37,10 @@ const routes: Routes = [
         loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
       },
       {
+        path: 'reportless',
+        loadChildren: () => import('./reportless/reportless.module').then(m => m.ReportlessPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'
@@ -67,7 +71,12 @@ const routes: Routes = [
   {
     path: 'scoreless',
     loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
+  },
+  {
+    path: 'reportless',
+    loadChildren: () => import('./reportless/reportless.module').then(m => m.ReportlessPageModule)
   }
+
 
 
 
