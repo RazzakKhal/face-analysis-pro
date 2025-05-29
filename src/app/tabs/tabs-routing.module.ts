@@ -8,10 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
-      },
-      {
         path: 'home',
         loadChildren: () => import('../tabs/home/home.module').then(m => m.HomePageModule)
       },
@@ -26,6 +22,14 @@ const routes: Routes = [
        {
         path: 'score',
         loadChildren: () => import('../tabs/score/score.module').then(m => m.ScorePageModule)
+      },
+      {
+        path: 'success-payment',
+        loadChildren: () => import('../tabs/success-payment/success-payment.module').then(m => m.SuccessPaymentPageModule)
+      },
+      {
+        path: 'report',
+        loadChildren: () => import('../tabs/report/report.module').then(m => m.ReportPageModule)
       },
       {
         path: '',
@@ -46,7 +50,17 @@ const routes: Routes = [
   {
     path: 'score',
     loadChildren: () => import('./score/score.module').then( m => m.ScorePageModule)
+  },
+  {
+    path: 'success-payment',
+    loadChildren: () => import('./success-payment/success-payment.module').then( m => m.SuccessPaymentPageModule)
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
   }
+
+
 
 
 ];
