@@ -19,7 +19,7 @@ const routes: Routes = [
         path: 'scan',
         loadChildren: () => import('../tabs/scan/scan.module').then(m => m.ScanPageModule)
       },
-       {
+      {
         path: 'score',
         loadChildren: () => import('../tabs/score/score.module').then(m => m.ScorePageModule)
       },
@@ -30,6 +30,11 @@ const routes: Routes = [
       {
         path: 'report',
         loadChildren: () => import('../tabs/report/report.module').then(m => m.ReportPageModule)
+      },
+
+      {
+        path: 'scoreless',
+        loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
       },
       {
         path: '',
@@ -45,20 +50,25 @@ const routes: Routes = [
   },
   {
     path: 'scan',
-    loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+    loadChildren: () => import('./scan/scan.module').then(m => m.ScanPageModule)
   },
   {
     path: 'score',
-    loadChildren: () => import('./score/score.module').then( m => m.ScorePageModule)
+    loadChildren: () => import('./score/score.module').then(m => m.ScorePageModule)
   },
   {
     path: 'success-payment',
-    loadChildren: () => import('./success-payment/success-payment.module').then( m => m.SuccessPaymentPageModule)
+    loadChildren: () => import('./success-payment/success-payment.module').then(m => m.SuccessPaymentPageModule)
   },
   {
     path: 'report',
-    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+    loadChildren: () => import('./report/report.module').then(m => m.ReportPageModule)
+  },
+  {
+    path: 'scoreless',
+    loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
   }
+
 
 
 
@@ -68,4 +78,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }
