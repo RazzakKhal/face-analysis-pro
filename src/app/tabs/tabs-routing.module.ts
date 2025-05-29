@@ -8,10 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
-      },
-      {
         path: 'tab3',
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
@@ -26,6 +22,10 @@ const routes: Routes = [
       {
         path: 'scan',
         loadChildren: () => import('../tabs/scan/scan.module').then(m => m.ScanPageModule)
+      },
+       {
+        path: 'score',
+        loadChildren: () => import('../tabs/score/score.module').then(m => m.ScorePageModule)
       },
       {
         path: '',
@@ -42,7 +42,12 @@ const routes: Routes = [
   {
     path: 'scan',
     loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+  },
+  {
+    path: 'score',
+    loadChildren: () => import('./score/score.module').then( m => m.ScorePageModule)
   }
+
 
 ];
 
