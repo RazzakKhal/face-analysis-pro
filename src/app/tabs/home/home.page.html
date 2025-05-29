@@ -1,53 +1,47 @@
 <ion-header>
-  <ion-toolbar>
-    <div class="custom-title">
-      <img src="assets/logodessinrogne.png" alt="Logo" class="logo" />
-      <span>FaceAnalysisPro</span>
+  <ion-toolbar class="header-white">
+    <div class="logo-centered">
+      <img src="assets/logodessinrogne.png" alt="Logo" class="logo-image" />
+      <span class="app-name">ANALYSIS PRO</span>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
- <!-- Main Content -->
-        <div id="main-content" class="flex-grow flex flex-col items-center justify-center text-center">
-            <h1 class="text-3xl font-bold mb-6 leading-tight">Découvrez ce que révèle vraiment votre visage grâce à notre IA de beauté.</h1>
-            
-            <!-- AI Illustration -->
-            <div id="ai-illustration" class="mb-8 relative w-64 h-64">
-                <img class="rounded-full shadow-lg" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png" alt="minimalist futuristic AI face analysis technology, face scanning with blue light, clean white background, tech aesthetic">
-            </div>
-            
-            <!-- CTA Button -->
-            <button id="analyze-button" class="bg-accent text-white text-lg font-semibold py-4 px-8 rounded-full shadow-lg mb-8 transform transition-transform duration-200 active:scale-95 hover:bg-opacity-90">
-                Analyser mon visage
-            </button>
-            
-            <!-- Description -->
-            <p id="description" class="text-gray-600 max-w-xs">
-                Analyse basée sur symétrie, proportions et harmonie faciale selon les standards esthétiques universels.
-            </p>
-            
-            <!-- Features Preview -->
-            <div id="features-preview" class="flex justify-center space-x-4 mt-10">
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-ruler text-accent"></i>
-                    </div>
-                    <span class="text-xs text-gray-500">Symétrie</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-chart-simple text-accent"></i>
-                    </div>
-                    <span class="text-xs text-gray-500">Proportions</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-star text-accent"></i>
-                    </div>
-                    <span class="text-xs text-gray-500">Harmonie</span>
-                </div>
-            </div>
+  <div id="main-content">
+    <h1 id="main-title">Discover what your face truly reveals with our beauty AI.</h1>
+
+    <div id="ai-illustration">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png" alt="AI illustration" />
+    </div>
+
+    <button id="analyze-button">
+      Analyze my face
+    </button>
+
+    <p id="description">
+      Our AI assesses facial aesthetics by benchmarking your features against a dataset of more than 5,500 annotated faces, each evaluated on a validated 1-to-10 scale of perceived attractiveness.
+    </p>
+
+    <div id="features-preview">
+      <div class="feature">
+        <div class="feature-icon">
+          	<ion-icon name="expand-outline"></ion-icon>
         </div>
-      
+        <span class="feature-label">Symmetry</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <ion-icon name="grid-outline"></ion-icon>
+        </div>
+        <span class="feature-label">Golden Ratio</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <ion-icon name="sparkles-outline"></ion-icon>
+        </div>
+        <span class="feature-label">Harmony</span>
+      </div>
+    </div>
+  </div>
 </ion-content>
