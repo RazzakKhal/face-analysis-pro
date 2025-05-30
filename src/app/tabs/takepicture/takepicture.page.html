@@ -11,20 +11,25 @@
   <div id="main-content">
     <!-- Face Frame -->
     <div id="face-frame">
-      <div class="face-icon">
-        <i class="fa-solid fa-face-smile"></i>
-      </div>
-      <div class="face-circle-overlay"></div>
+      <ng-container *ngIf="previewUrl; else iconPlaceholder">
+        <img [src]="previewUrl" alt="Captured Face"
+          style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
+      </ng-container>
+      <ng-template #iconPlaceholder>
+        <div class="face-icon">
+          <i class="fa-solid fa-face-smile"></i>
+        </div>
+        <div class="face-circle-overlay"></div>
+      </ng-template>
     </div>
-
     <!-- Photo Options -->
     <div id="photo-options">
-      <button id="take-photo-btn">
+      <button id="take-photo-btn" (click)="getPhoto('camera')">
         <i class="fa-solid fa-camera"></i>
         <span>Take a photo</span>
       </button>
 
-      <button id="choose-photo-btn">
+      <button id="choose-photo-btn" (click)="getPhoto('gallery')">
         <i class="fa-solid fa-image"></i>
         <span>Choose a photo</span>
       </button>
@@ -34,11 +39,12 @@
     <div id="photo-tips">
       <h3>
         <i class="fa-solid fa-lightbulb"></i>
-       Tips for a better analysis
+        Tips for a better analysis
       </h3>
       <ul>
         <li><i class="fa-solid fa-check"></i> Good lighting, well-lit face</li>
-        <li><i class="fa-solid fa-check"></i> Unobstructed face, visible ears and forehead, neutral expression, facing the camera</li>
+        <li><i class="fa-solid fa-check"></i> Unobstructed face, visible ears and forehead, neutral expression, facing
+          the camera</li>
         <li><i class="fa-solid fa-check"></i> No accessories (glasses, etc.) covering the face</li>
       </ul>
     </div>
@@ -50,4 +56,3 @@
     <p class="analyze-tip">Select a photo to enable analysis</p>
   </div>
 </ion-content>
-
