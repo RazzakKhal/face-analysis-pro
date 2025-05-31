@@ -1,3 +1,9 @@
+ion-header {
+  padding-top: env(safe-area-inset-top); /* Utilise les insets système */
+  background: white; /* Optionnel, pour éviter les fonds transparents */
+}
+
+
 // Blanc en fond
 .header-white,
 .footer-white {
@@ -176,4 +182,9 @@
 .analyze-tip {
   font-size: 12px;
   color: #9ca3af;
+}
+
+#analyze-button.analyze-enabled {
+  background-color: #6366f1; /* Violet (comme Take Photo) */
+  cursor: pointer;
 }

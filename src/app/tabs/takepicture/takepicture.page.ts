@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CameraHandlerService } from 'src/app/handlers/camera-handler.service';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 
@@ -11,7 +11,6 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
 export class TakepicturePage implements OnInit {
   previewUrl: string | null = null;
 
-
   constructor(private cameraHandler: CameraHandlerService, private storageHandler : StorageHandlerService) { }
 
   ngOnInit() {
@@ -20,9 +19,9 @@ export class TakepicturePage implements OnInit {
   async getPhoto(action: string){
     let photo : any;
     if(action === 'gallery'){
-      photo = await this.cameraHandler.getPhoto();
-    }else{
       photo = await this.cameraHandler.getGalleryPhoto();
+    }else{
+      photo = await this.cameraHandler.getPhoto();
     }
     this.previewUrl = photo.preview; // Pour l’affichage immédiat
     this.storageHandler.savePhoto(photo);

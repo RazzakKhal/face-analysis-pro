@@ -50,7 +50,7 @@
     </div>
 
     <!-- Analyze Button -->
-    <button id="analyze-button" routerLink="/tabs/scan">
+    <button id="analyze-button" routerLink="/tabs/scan" [disabled]="!previewUrl" [class.analyze-enabled]="previewUrl">
       Analyze
     </button>
     <p class="analyze-tip">Select a photo to enable analysis</p>

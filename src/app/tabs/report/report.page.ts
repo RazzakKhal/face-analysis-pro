@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 
 @Component({
   selector: 'app-report',
@@ -8,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportPage implements OnInit {
 
-  constructor() { }
+  analyzedImage: string | null = null; // <--- variable liée à l'image
 
-  ngOnInit() {
+  constructor(private storageHandlerService: StorageHandlerService) { }
+
+  async ngOnInit() {
+    const report = await this.storageHandlerService.getReport();
+    if (report && report.image_base64) {
+      this.analyzedImage = `data:image/jpeg;base64,${report.image_base64}`;
+    }
   }
 
 }

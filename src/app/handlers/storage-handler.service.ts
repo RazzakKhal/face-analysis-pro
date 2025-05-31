@@ -8,6 +8,7 @@ import { Preferences } from '@capacitor/preferences';
 export class StorageHandlerService {
 
   private readonly photoKey = 'user-score-photo';
+  private readonly report = 'report';
 
   constructor() { }
 
@@ -27,7 +28,7 @@ export class StorageHandlerService {
     }
   }
 
-  async getUserScorePhoto(): Promise<{
+  async getPhoto(): Promise<{
     base64: string | undefined;
     format: string;
     preview: string;
@@ -46,6 +47,28 @@ export class StorageHandlerService {
       await Preferences.remove({ key: this.photoKey });
     } catch (error) {
       console.error('Erreur lors de la suppression de la photo:', error);
+    }
+  }
+
+  async saveReport(report : any
+  ): Promise<void> {
+    try {
+      await Preferences.set({
+        key: this.report,
+        value: JSON.stringify(report)
+      });
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde du rapport:', error);
+    }
+  }
+
+    async getReport(): Promise<any> {
+    try {
+      const result = await Preferences.get({ key: this.report });
+      return result.value ? JSON.parse(result.value) : null;
+    } catch (error) {
+      console.error('Erreur lors de la récupération du rapport:', error);
+      return null;
     }
   }
 }
