@@ -13,42 +13,240 @@
     <!-- Analyzed Photo Section -->
     <div id="analyzed-photo">
       <div class="photo-container">
-        <img [src]="analyzedImage || 'https://storage.googleapis.com/uxpilot-auth.appspot.com/143a43844e-6cc3a4de09dec9949455.png'" alt="portrait photo" />
+        <img
+          [src]="analyzedImage || 'https://storage.googleapis.com/uxpilot-auth.appspot.com/143a43844e-6cc3a4de09dec9949455.png'"
+          alt="portrait photo" />
       </div>
     </div>
 
     <!-- Score Summary -->
     <div id="score-summary">
-      <p class="score-label">Your face has rare proportions. Unlock your beauty report to see what makes you truly unique.</p>
+      <p class="score-label">Your face has rare proportions. Unlock your beauty report to see what makes you truly
+        unique.</p>
     </div>
 
     <!-- Measurements Container -->
     <div id="measurements-container">
-      <!-- Lip Measurement -->
+      <!-- Global Measurement -->
       <div class="measurement-card">
-        <div class="card-header red-header">
-          <h2>Du la lèvre supérieure à la lèvre inférieure</h2>
+        <div class="card-header blue-header">
+          <h2>Overall facial ratio</h2>
         </div>
         <div class="card-body">
           <div class="ratio-row">
-            <div class="label">Votre ratio</div>
+            <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Supérieure charnue</div>
-                <div class="ratio-item active">Idéal</div>
-                <div class="ratio-item">Inférieure charnue</div>
+                <div class="ratio-item">Wide / Short</div>
+                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item">Thin / Long</div>
               </div>
             </div>
           </div>
           <div class="info-box">
-            <div class="info-title">Nombre d'or : 1 : 1.618</div>
+            <div class="info-title">Golden ratio : 1:1.46</div>
             <div class="info-content">
               <div class="info-image">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png" alt="Golden ratio lips" />
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.face_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
               </div>
               <div class="info-text">
-                <p>Le nombre d'or entre la lèvre supérieure et la lèvre inférieure suggère que la hauteur de la lèvre inférieure devrait être de 1,618 fois celle de la supérieure.</p>
-                <p class="paragraph-margin">Cette proportion crée un aspect équilibré et esthétique.</p>
+                <p>The golden ratio of facial aspect is the ratio between the height and the width of the face,
+                  ideally following the golden ratio of 1:1.46 to create a balanced and aesthetically pleasing
+                  appearance.</p>
+                <p class="paragraph-margin">Your ratio for this measurement is {{report?.ratio_height_width | number:
+                  '1.2-2'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Horizontal Measurement -->
+      <div class="measurement-card">
+        <div class="card-header red-header">
+          <h2>Horizontal facial ratio</h2>
+        </div>
+        <div class="card-body">
+          <div class="ratio-row">
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Imbalance</div>
+                <div class="ratio-item active">Ideal</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Ratio : 1:1:1</div>
+            <div class="info-content">
+              <div class="info-image">
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_horizontal : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
+              </div>
+              <div class="info-text">
+                <p>The golden ratio of the horizontal face is based on the vertical division of the face into three
+                  equal sections:
+                  from the hairline to the bottom of the eyebrows, from the bottom of the eyebrows to the bottom of the
+                  nose, and from the bottom of the nose to the
+                  tip of the chin. The ideal proportion is 1:1:1.</p>
+                <p class="paragraph-margin">{{ report? this.getTierRatioMessage(report.tier1,report.tier2,report.tier3 )
+                  : ''}}</p>
+                <p>Note: This measurement may be distorted if your hair covers your forehead.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertical Measurement -->
+      <div class="measurement-card">
+        <div class="card-header blue-header">
+          <h2>Vertical facial ratio</h2>
+        </div>
+        <div class="card-body">
+          <div class="ratio-row">
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Imbalance</div>
+                <div class="ratio-item active">Ideal</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Ratio 1:1:1:1:1</div>
+            <div class="info-content">
+              <div class="info-image">
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_vertical : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
+              </div>
+              <div class="info-text">
+                <p>The golden ratio of the vertical face is determined by dividing the face horizontally into five equal
+                  sections: the width of one eye,
+                  the distance between the eyes, and the space between the outer corners of the eyes and the edges of
+                  the face. This proportion should be 1:1:1:1:1.</p>
+                <p class="paragraph-margin">{{ report ?
+                  this.getVerticalRatioMessage(report.segment_widths[0],report.segment_widths[1],report.segment_widths[2],
+                  report.segment_widths[3], report.segment_widths[4] ) : ''}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Eye Measurement -->
+      <div class="measurement-card">
+        <div class="card-header red-header">
+          <h2>Eye shape ratio</h2>
+        </div>
+        <div class="card-body">
+          <div class="ratio-row">
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Tall / Narrow</div>
+                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item">Wide / Small</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Golden ratio: 1:3</div>
+            <div class="info-content">
+              <div class="info-image">
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.eye_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
+              </div>
+              <div class="info-text">
+                <p>The golden ratio of eye aspect is based on the width of the eye in relation to its height, which
+                  should ideally align with the golden ratio.
+                  This proportion is generally expressed as 1:3, meaning that the width of the eye should be three times
+                  its height for a balanced and aesthetically pleasing look.</p>
+                <p class="paragraph-margin">This proportion creates a balanced and aesthetic appearance. Your ratio is
+                  {{report?.ratios.eye_ratio}}</p>
+                <p>Note: This measurement may be distorted by wearing glasses.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nose Measurement -->
+      <div class="measurement-card">
+        <div class="card-header blue-header">
+          <h2>Nose shape ratio</h2>
+        </div>
+        <div class="card-body">
+          <div class="ratio-row">
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Wide / Short</div>
+                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item">Narrow / Long</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Golden ratio 1:1.618</div>
+            <div class="info-content">
+              <div class="info-image">
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
+              </div>
+              <div class="info-text">
+                <p>The golden ratio of nose aspect is the ratio between the width and the height of the nose, ideally
+                  following the golden ratio of 1:1.618.</p>
+                <p class="paragraph-margin">This proportion is a universal marker of beauty. Your ratio is
+                  {{report?.ratios.nose_ratio}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mouth Nose Width Measurement -->
+      <div class="measurement-card">
+        <div class="card-header red-header">
+          <h2>Nose width / Mouth width</h2>
+        </div>
+        <div class="card-body">
+          <div class="ratio-row">
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Wide nose / Close-set lips</div>
+                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item">Narrow nose / Wide lips</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-title">Golden ratio : 1 : 1.618</div>
+            <div class="info-content">
+              <div class="info-image">
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.mouth_nose_widths : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
+              </div>
+              <div class="info-text">
+                <p>The golden ratio between the width of the nose and the mouth is the ratio between the width of the
+                  nose and the width of the mouth,
+                  which should ideally follow the golden ratio of 1:1.618 for a balanced and aesthetically pleasing
+                  appearance.</p>
+                <p class="paragraph-margin">This proportion is a universal marker of beauty. Your ratio is
+                  {{report?.ratios.nose_mouth_ratio}}</p>
+                <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
+                </p>
               </div>
             </div>
           </div>
@@ -58,52 +256,72 @@
       <!-- Eye Measurement -->
       <div class="measurement-card">
         <div class="card-header blue-header">
-          <h2>Distance entre les yeux</h2>
+          <h2>From nose to lip to chin</h2>
         </div>
         <div class="card-body">
           <div class="ratio-row">
-            <div class="label">Votre ratio</div>
+            <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Rapprochés</div>
-                <div class="ratio-item active">Idéal</div>
-                <div class="ratio-item">Écartés</div>
+                <div class="ratio-item">Imbalance</div>
+                <div class="ratio-item active">Ideal</div>
               </div>
             </div>
           </div>
           <div class="info-box">
-            <div class="info-title">Règle des trois</div>
+            <div class="info-title">Golden Ratio : 1 : 1.618</div>
             <div class="info-content">
               <div class="info-image">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a3c2a00381-a84b1e817708d90c3a23.png" alt="eye spacing" />
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_lip_chin : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
               </div>
               <div class="info-text">
-                <p>La distance idéale entre les yeux devrait être égale à la largeur d'un œil. Vos yeux présentent un espacement idéal.</p>
-                <p class="paragraph-margin">Cette proportion est un marqueur universel de beauté.</p>
+                <p>The golden ratio between the nose, the lips, and the chin is a proportion where the distance from the
+                  base of the nose to the center of the lips should equal 1,
+                  and the distance from the center of the
+                  lips to the chin should be 1.618. This ratio creates a balanced and harmonious lower face, following
+                  the principles of facial symmetry.</p>
+                <p class="paragraph-margin">Your ratio is {{report?.ratios.nose_lip_menton_ratio}}</p>
+                <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Face Shape -->
+      <!-- Eye Measurement -->
       <div class="measurement-card">
-        <div class="card-header purple-header">
-          <h2>Forme du visage</h2>
+        <div class="card-header red-header">
+          <h2>From the upper lip to the lower lip</h2>
         </div>
         <div class="card-body">
           <div class="ratio-row">
-            <div class="label">Votre type</div>
-            <div class="type-box">Ovale</div>
+            <div class="label">Your ratio</div>
+            <div class="ratio-box">
+              <div class="ratio-grid">
+                <div class="ratio-item">Imbalance</div>
+                <div class="ratio-item active">Ideal</div>
+              </div>
+            </div>
           </div>
           <div class="info-box">
+            <div class="info-title">Golden Ratio : 1 : 1.618</div>
             <div class="info-content">
               <div class="info-image">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/0cbaef3adf-3078d765b274b16a35a7.png" alt="face shape" />
+                <img
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.lip_thickness : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  alt="Golden ratio lips" />
               </div>
               <div class="info-text">
-                <p>La forme ovale du visage est souvent considérée comme la plus équilibrée. Votre visage présente des proportions harmonieuses.</p>
-                <p class="paragraph-margin">Cette forme est très versatile.</p>
+                <p>The golden ratio between the upper and lower lips suggests that the height of the lower lip should be
+                  1.618 times the height of the upper lip.
+                  This proportion creates a balanced and aesthetic appearance, with the lower lip being slightly fuller
+                  than the upper lip.</p>
+                <p class="paragraph-margin">Your ratio is {{report?.ratios.lip_ratio}}</p>
+                <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
+                </p>
               </div>
             </div>
           </div>
