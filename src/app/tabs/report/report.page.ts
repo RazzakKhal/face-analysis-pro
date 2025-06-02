@@ -10,14 +10,21 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
 export class ReportPage implements OnInit {
 
   analyzedImage: string | null = null; // <--- variable liée à l'image
+  report : any;
 
   constructor(private storageHandlerService: StorageHandlerService) { }
 
   async ngOnInit() {
     const report = await this.storageHandlerService.getReport();
-    if (report && report.image_base64) {
-      this.analyzedImage = `data:image/jpeg;base64,${report.image_base64}`;
+    if (report ) {
+      this.report =report;
     }
+
+    const mainPhoto = await this.storageHandlerService.getPhoto();
+    if(mainPhoto && mainPhoto.base64){
+      this.analyzedImage = `data:image/jpeg;base64,${mainPhoto.base64}`;
+    }
+
   }
 
 }
