@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,19 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private platform: Platform) {
+        this.initializeApp();
+  }
+
+
+
+  async initializeApp() {
+    await this.platform.ready();
+
+    // Option sûre : désactiver l’overlay
+    await StatusBar.setOverlaysWebView({ overlay: false });
+
+    // (facultatif) Ajuster le style de la barre
+    await StatusBar.setStyle({ style: Style.Light });
+  }
 }
