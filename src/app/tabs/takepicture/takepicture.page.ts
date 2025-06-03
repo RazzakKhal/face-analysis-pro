@@ -8,15 +8,14 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
   styleUrls: ['./takepicture.page.scss'],
   standalone: false
 })
-export class TakepicturePage implements OnInit {
+export class TakepicturePage  {
   previewUrl: string | null = null;
 
   constructor(private cameraHandler: CameraHandlerService, private storageHandler : StorageHandlerService) { }
 
-  ngOnInit() {
-  }
-
-  async getPhoto(action: string){
+  
+  async takePhoto(action: string){
+    await this.storageHandler.clearPhoto();
     let photo : any;
     if(action === 'gallery'){
       photo = await this.cameraHandler.getGalleryPhoto();
@@ -24,7 +23,7 @@ export class TakepicturePage implements OnInit {
       photo = await this.cameraHandler.getPhoto();
     }
     this.previewUrl = photo.preview; // Pour l’affichage immédiat
-    this.storageHandler.savePhoto(photo);
+    await this.storageHandler.savePhoto(photo);
   }
 
 }

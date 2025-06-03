@@ -8,12 +8,11 @@ import { Router } from '@angular/router';
   standalone: false
 })
 
-export class HomePage implements OnInit {
+export class HomePage  {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
-  }
+  async ionViewWillEnter() {}
 
 
 }

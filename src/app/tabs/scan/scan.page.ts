@@ -10,14 +10,15 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
   styleUrls: ['./scan.page.scss'],
   standalone: false
 })
-export class ScanPage implements OnInit {
+export class ScanPage  {
 
   constructor(private analyzeApiService: AnalyzeApiService, private storageHandlerService: StorageHandlerService, private router: Router, private alertController: AlertController // ✅ Injection de AlertController
 ) { }
 
-  async ngOnInit() {
-    await this.makeAnalyze()
 
+
+  async ionViewWillEnter() {
+    await this.makeAnalyze()
   }
 
   async makeAnalyze() {

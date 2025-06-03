@@ -188,6 +188,12 @@ ion-header {
   font-weight: 600;
 }
 
+/* Ratio non idéal (jaune) */
+.ratio-item.warning {
+  background: #fef9c3; /* bg-yellow-100 */
+  font-weight: 600;
+}
+
 .type-box {
   background: #fff;
   border: 1px solid #ccc;

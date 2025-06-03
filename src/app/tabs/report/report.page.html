@@ -14,7 +14,7 @@
     <div id="analyzed-photo">
       <div class="photo-container">
         <img
-          [src]="analyzedImage || 'https://storage.googleapis.com/uxpilot-auth.appspot.com/143a43844e-6cc3a4de09dec9949455.png'"
+          [src]="report ? 'data:image/jpeg;base64,'+report.images.original : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
           alt="portrait photo" />
       </div>
     </div>
@@ -37,9 +37,12 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Wide / Short</div>
-                <div class="ratio-item active">Ideal</div>
-                <div class="ratio-item">Thin / Long</div>
+                <div class="ratio-item" [class.warning]="report?.ratio_height_width < idealRatios.height_width * 0.86">
+                  Wide / Short</div>
+                <div class="ratio-item" [class.active]="isIdeal(report?.ratio_height_width, idealRatios.height_width)">
+                  Ideal</div>
+                <div class="ratio-item" [class.warning]="report?.ratio_height_width > idealRatios.height_width * 1.14">
+                  Thin / Long</div>
               </div>
             </div>
           </div>
@@ -74,8 +77,12 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Imbalance</div>
-                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item"
+                  [class.warning]="!isIdeal(report?.tier1 / report?.tier2, 1.0) || !isIdeal(report?.tier3 / report?.tier2, 1.0)">
+                  Less Ideal</div>
+                <div class="ratio-item"
+                  [class.active]="isIdeal(report?.tier1 / report?.tier2, 1.0) && isIdeal(report?.tier3 / report?.tier2, 1.0)">
+                  Ideal</div>
               </div>
             </div>
           </div>
@@ -113,8 +120,14 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Imbalance</div>
-                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item" [class.warning]="!isIdeal(report?.segment_widths[0] / report?.segment_widths[2], 1.0)
+    || !isIdeal(report?.segment_widths[1] / report?.segment_widths[2], 1.0)
+    || !isIdeal(report?.segment_widths[3] / report?.segment_widths[2], 1.0)
+    || !isIdeal(report?.segment_widths[4] / report?.segment_widths[2], 1.0)">Less Ideal</div>
+                <div class="ratio-item" [class.active]="isIdeal(report?.segment_widths[0] / report?.segment_widths[2], 1.0)
+    && isIdeal(report?.segment_widths[1] / report?.segment_widths[2], 1.0)
+    && isIdeal(report?.segment_widths[3] / report?.segment_widths[2], 1.0)
+    && isIdeal(report?.segment_widths[4] / report?.segment_widths[2], 1.0)">Ideal</div>
               </div>
             </div>
           </div>
@@ -150,9 +163,12 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Tall / Narrow</div>
-                <div class="ratio-item active">Ideal</div>
-                <div class="ratio-item">Wide / Small</div>
+                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio < idealRatios.eye_ratio * 0.86">Tall /
+                  Narrow</div>
+                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.eye_ratio, idealRatios.eye_ratio)">Ideal
+                </div>
+                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio > idealRatios.eye_ratio * 1.14">Wide /
+                  Small</div>
               </div>
             </div>
           </div>
@@ -189,9 +205,12 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Wide / Short</div>
-                <div class="ratio-item active">Ideal</div>
-                <div class="ratio-item">Narrow / Long</div>
+                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio < idealRatios.nose_ratio * 0.86">Wide
+                  / Short</div>
+                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.nose_ratio, idealRatios.nose_ratio)">
+                  Ideal</div>
+                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio > idealRatios.nose_ratio * 1.14">
+                  Narrow / Long</div>
               </div>
             </div>
           </div>
@@ -206,7 +225,7 @@
               <div class="info-text">
                 <p>The golden ratio of nose aspect is the ratio between the width and the height of the nose, ideally
                   following the golden ratio of 1:1.618.</p>
-                <p class="paragraph-margin">This proportion is a universal marker of beauty. Your ratio is
+                <p class="paragraph-margin">Your ratio is
                   {{report?.ratios.nose_ratio}}</p>
               </div>
             </div>
@@ -224,9 +243,14 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Wide nose / Close-set lips</div>
-                <div class="ratio-item active">Ideal</div>
-                <div class="ratio-item">Narrow nose / Wide lips</div>
+                <div class="ratio-item"
+                  [class.warning]="report?.ratios.nose_mouth_ratio < idealRatios.nose_mouth_ratio * 0.86">Wide nose /
+                  Close-set lips</div>
+                <div class="ratio-item"
+                  [class.active]="isIdeal(report?.ratios.nose_mouth_ratio, idealRatios.nose_mouth_ratio)">Ideal</div>
+                <div class="ratio-item"
+                  [class.warning]="report?.ratios.nose_mouth_ratio > idealRatios.nose_mouth_ratio * 1.14">Narrow nose /
+                  Wide lips</div>
               </div>
             </div>
           </div>
@@ -253,7 +277,7 @@
         </div>
       </div>
 
-      <!-- Eye Measurement -->
+      <!-- Nose Lip Chin Measurement -->
       <div class="measurement-card">
         <div class="card-header blue-header">
           <h2>From nose to lip to chin</h2>
@@ -263,8 +287,12 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Imbalance</div>
-                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item"
+                  [class.warning]="!isIdeal(report?.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
+                  Less Ideal</div>
+                <div class="ratio-item"
+                  [class.active]="isIdeal(report?.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
+                  Ideal</div>
               </div>
             </div>
           </div>
@@ -291,7 +319,7 @@
         </div>
       </div>
 
-      <!-- Eye Measurement -->
+      <!-- Lips Measurement -->
       <div class="measurement-card">
         <div class="card-header red-header">
           <h2>From the upper lip to the lower lip</h2>
@@ -301,8 +329,10 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item">Imbalance</div>
-                <div class="ratio-item active">Ideal</div>
+                <div class="ratio-item" [class.warning]="!isIdeal(report?.ratios.lip_ratio, idealRatios.lip_ratio)">Less
+                  Ideal</div>
+                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.lip_ratio, idealRatios.lip_ratio)">Ideal
+                </div>
               </div>
             </div>
           </div>

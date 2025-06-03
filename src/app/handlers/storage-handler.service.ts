@@ -35,6 +35,7 @@ export class StorageHandlerService {
   } | null> {
     try {
       const result = await Preferences.get({ key: this.photoKey });
+      console.log('getphoto appelé', result)
       return result.value ? JSON.parse(result.value) : null;
     } catch (error) {
       console.error('Erreur lors de la récupération de la photo:', error);
@@ -44,7 +45,9 @@ export class StorageHandlerService {
 
   async clearPhoto(): Promise<void> {
     try {
+      if(await this.getPhoto() !== null){
       await Preferences.remove({ key: this.photoKey });
+      }
     } catch (error) {
       console.error('Erreur lors de la suppression de la photo:', error);
     }
