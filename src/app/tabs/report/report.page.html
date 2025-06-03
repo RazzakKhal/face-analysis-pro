@@ -37,11 +37,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratio_height_width < idealRatios.height_width * 0.86">
+                <div class="ratio-item" [class.warning]="report?.ratio_height_width < idealRatios.height_width * 0.80">
                   Wide / Short</div>
                 <div class="ratio-item" [class.active]="isIdeal(report?.ratio_height_width, idealRatios.height_width)">
                   Ideal</div>
-                <div class="ratio-item" [class.warning]="report?.ratio_height_width > idealRatios.height_width * 1.14">
+                <div class="ratio-item" [class.warning]="report?.ratio_height_width > idealRatios.height_width * 1.20">
                   Thin / Long</div>
               </div>
             </div>
@@ -163,11 +163,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio < idealRatios.eye_ratio * 0.86">Tall /
+                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio < idealRatios.eye_ratio * 0.80">Tall /
                   Narrow</div>
                 <div class="ratio-item" [class.active]="isIdeal(report?.ratios.eye_ratio, idealRatios.eye_ratio)">Ideal
                 </div>
-                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio > idealRatios.eye_ratio * 1.14">Wide /
+                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio > idealRatios.eye_ratio * 1.20">Wide /
                   Small</div>
               </div>
             </div>
@@ -205,11 +205,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio < idealRatios.nose_ratio * 0.86">Wide
+                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio < idealRatios.nose_ratio * 0.80">Wide
                   / Short</div>
                 <div class="ratio-item" [class.active]="isIdeal(report?.ratios.nose_ratio, idealRatios.nose_ratio)">
                   Ideal</div>
-                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio > idealRatios.nose_ratio * 1.14">
+                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio > idealRatios.nose_ratio * 1.20">
                   Narrow / Long</div>
               </div>
             </div>
@@ -244,12 +244,12 @@
             <div class="ratio-box">
               <div class="ratio-grid">
                 <div class="ratio-item"
-                  [class.warning]="report?.ratios.nose_mouth_ratio < idealRatios.nose_mouth_ratio * 0.86">Wide nose /
+                  [class.warning]="report?.ratios.nose_mouth_ratio < idealRatios.nose_mouth_ratio * 0.80">Wide nose /
                   Close-set lips</div>
                 <div class="ratio-item"
                   [class.active]="isIdeal(report?.ratios.nose_mouth_ratio, idealRatios.nose_mouth_ratio)">Ideal</div>
                 <div class="ratio-item"
-                  [class.warning]="report?.ratios.nose_mouth_ratio > idealRatios.nose_mouth_ratio * 1.14">Narrow nose /
+                  [class.warning]="report?.ratios.nose_mouth_ratio > idealRatios.nose_mouth_ratio * 1.20">Narrow nose /
                   Wide lips</div>
               </div>
             </div>

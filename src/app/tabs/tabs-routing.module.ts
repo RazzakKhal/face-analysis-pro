@@ -31,14 +31,9 @@ const routes: Routes = [
         path: 'report',
         loadChildren: () => import('../tabs/report/report.module').then(m => m.ReportPageModule)
       },
-
       {
-        path: 'scoreless',
-        loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
-      },
-      {
-        path: 'reportless',
-        loadChildren: () => import('./reportless/reportless.module').then(m => m.ReportlessPageModule)
+        path: 'history',
+        loadChildren: () => import('./history/history.module').then(m => m.HistoryPageModule)
       },
       {
         path: '',
@@ -51,36 +46,7 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/home',
     pathMatch: 'full'
-  },
-  {
-    path: 'scan',
-    loadChildren: () => import('./scan/scan.module').then(m => m.ScanPageModule)
-  },
-  {
-    path: 'score',
-    loadChildren: () => import('./score/score.module').then(m => m.ScorePageModule)
-  },
-  {
-    path: 'success-payment',
-    loadChildren: () => import('./success-payment/success-payment.module').then(m => m.SuccessPaymentPageModule)
-  },
-  {
-    path: 'report',
-    loadChildren: () => import('./report/report.module').then(m => m.ReportPageModule)
-  },
-  {
-    path: 'scoreless',
-    loadChildren: () => import('./scoreless/scoreless.module').then(m => m.ScorelessPageModule)
-  },
-  {
-    path: 'reportless',
-    loadChildren: () => import('./reportless/reportless.module').then(m => m.ReportlessPageModule)
   }
-
-
-
-
-
 
 ];
 

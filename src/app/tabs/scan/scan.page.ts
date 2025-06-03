@@ -28,7 +28,6 @@ export class ScanPage  {
       this.analyzeApiService.makeAnalyze(photo.base64, photo.format).subscribe({
         next : async (response) => {
           await this.storageHandlerService.saveReport(response);
-          console.log('la reponse', response)
           this.router.navigateByUrl('/tabs/report')
         }, 
         error: async (error) => {

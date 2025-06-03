@@ -16,7 +16,7 @@ export class ReportPage {
     nose_ratio: 1.618,
     nose_mouth_ratio: 1.618,
     nose_lip_menton_ratio: 1.618,
-    lip_ratio: 1.0,
+    lip_ratio: 1.618,
     eye_ratio: 3.0
   };
 
@@ -26,7 +26,6 @@ export class ReportPage {
     const report = await this.storageHandlerService.getReport();
     if (report) {
       this.report = report;
-      console.log('le rapport', report)
     }
 
     const mainPhoto = await this.storageHandlerService.getPhoto();
@@ -37,8 +36,8 @@ export class ReportPage {
 
   isIdeal(value: number, ideal: number): boolean {
     if (!value || !ideal) return false;
-    const min = ideal * 0.86;
-    const max = ideal * 1.14;
+    const min = ideal * 0.80;
+    const max = ideal * 1.20;
     return value >= min && value <= max;
   }
 

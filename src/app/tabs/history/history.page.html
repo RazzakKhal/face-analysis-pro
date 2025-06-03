@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar class="header-white">
+    <div class="logo-centered">
+      <img src="assets/logodessinrogne.png" alt="Logo" class="logo-image" />
+      <span class="app-name">ANALYSIS PRO</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="history-page">
+    <div id="header" class="header">
+      <div class="header-top">
+        <h1 class="header-title">History</h1>
+        <button class="header-button">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="reports-list" class="reports-list">
+      <div class="report-card" *ngFor="let r of reports">
+        <div class="report-header">
+          <div class="report-image">
+            <img [src]="'data:image/jpeg;base64,'+r.images.original" alt="Analysis Photo" />
+          </div>
+          <div class="report-info">
+            <div class="report-info-top">
+              <span class="report-title">Analysis {{ r.id }}</span>
+            </div>
+            <div class="report-date">{{ r.date | date: 'd MMMM yyyy' }}</div>
+          </div>
+        </div>
+        <div class="report-footer">
+          <div class="report-action">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Full report</span>
+          </div>
+          <button class="report-button" (click)="viewReport(r)">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
