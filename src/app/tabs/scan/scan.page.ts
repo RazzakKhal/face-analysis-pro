@@ -29,7 +29,6 @@ export class ScanPage {
   async ionViewWillEnter() {
     this.stopProgress = false;
     await this.makeAnalyze();
-    await this.deleteCongratulationIfExist();
   }
 
   ionViewWillLeave() {
@@ -60,6 +59,7 @@ export class ScanPage {
   }
 
 async makeAnalyze() {
+  await this.deleteCongratulationIfExist();
   const photo = await this.storageHandlerService.getPhoto();
   if (!photo?.base64 || !photo.format) {
     console.warn('📷 No valid photo found, skipping analysis.');

@@ -1,4 +1,13 @@
-<ion-content>
+<ion-header>
+  <ion-toolbar class="header-white">
+    <div class="logo-centered">
+      <img src="assets/logodessinrogne.png" alt="Logo" class="logo-image" />
+      <span class="app-name">ANALYSIS PRO</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
   <div id="history-page">
     <div class="header">
       <div class="header-top">
@@ -9,11 +18,12 @@
       </div>
     </div>
 
-    <div id="reports-list" class="reports-list" *ngIf="hasReports(); else noReports">
+    <div id="reports-list" class="reports-list" *ngIf="hasReports()">
       <div class="report-card" *ngFor="let r of reports">
         <div class="report-header">
           <div class="report-image">
-            <img [src]=" r.preview?'data:image/jpeg;base64,' +r.preview : 'assets/logodessinrogne.png'" alt="Analysis Photo" />
+            <img [src]=" r.preview?'data:image/jpeg;base64,' +r.preview : 'assets/logodessinrogne.png'"
+              alt="Analysis Photo" />
           </div>
           <div class="report-info">
             <div class="report-info-top">
@@ -34,14 +44,18 @@
       </div>
     </div>
 
-    <ng-template #noReports>
-      <div class="no-history">
-        <p>No analysis history found.</p>
-      </div>
-    </ng-template>
+    <div>
 
-    <ion-button expand="block" color="danger" (click)="clearHistory()">
-      Clear History
-    </ion-button>
+    </div>
+    <div class="bottom-page">
+        <div class="no-history" *ngIf="!hasReports()">
+          <p>No analysis history found.</p>
+        </div>
+
+      <ion-button class="clearHistory" (click)="clearHistory()">
+        Clear History
+      </ion-button>
+    </div>
+
   </div>
 </ion-content>

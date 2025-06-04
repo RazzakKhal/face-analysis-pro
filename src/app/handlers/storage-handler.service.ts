@@ -129,7 +129,7 @@ export class StorageHandlerService {
 
       for (const file of files) {
         await Filesystem.deleteFile({
-          path: `${this.historyFolder}/${file}`,
+          path: `${this.historyFolder}/${file.name}`,
           directory: Directory.Data
         });
       }
