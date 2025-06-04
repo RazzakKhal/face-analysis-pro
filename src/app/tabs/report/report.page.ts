@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import * as confetti from 'canvas-confetti';
 import { AlertController } from '@ionic/angular';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 
@@ -9,6 +10,8 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
   standalone: false
 })
 export class ReportPage {
+
+  @ViewChild('confettiCanvas', { static: true }) confettiCanvas!: ElementRef<HTMLCanvasElement>;
 
   analyzedImage: string | null = null;
   report: any;
@@ -22,15 +25,16 @@ export class ReportPage {
   };
 
   constructor(private storageHandlerService: StorageHandlerService, private alertController: AlertController
-) { }
+  ) { }
 
-  async ionViewWillEnter() {
+  async ionViewDidEnter() {
     const report = await this.storageHandlerService.getReport();
     if (report) {
       this.report = report;
       const idealCount = this.countIdealRatios();
-      const congratulation =await this.storageHandlerService.getCongratulation()
+      const congratulation = await this.storageHandlerService.getCongratulation()
       if (idealCount >= 3 && congratulation === null) {
+        this.launchConfetti(); // 🎉
         this.presentCongratulationPopup();
       }
     }
@@ -92,5 +96,19 @@ export class ReportPage {
     }
 
     return count;
+  }
+
+  launchConfetti() {
+    if (!this.confettiCanvas?.nativeElement) {
+      console.warn('🎯 Confetti canvas not ready yet.');
+      return;
+    }
+
+    const myConfetti = confetti.create(this.confettiCanvas.nativeElement, { resize: true });
+    myConfetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
   }
 }

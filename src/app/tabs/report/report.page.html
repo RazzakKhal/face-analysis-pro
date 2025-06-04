@@ -6,23 +6,24 @@
     </div>
   </ion-toolbar>
 </ion-header>
+  <canvas #confettiCanvas style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
 
 <ion-content class="detailed-results-content" *ngIf="report">
+
   <div id="results-page">
 
     <!-- Analyzed Photo Section -->
     <div id="analyzed-photo">
       <div class="photo-container">
         <img
-          [src]="report ? 'data:image/jpeg;base64,'+report.images.original : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+          [src]="report ? 'data:image/jpeg;base64,'+report.images.original : 'assets/logodessinrogne.png'"
           alt="portrait photo" />
       </div>
     </div>
 
     <!-- Score Summary -->
     <div id="score-summary">
-      <p class="score-label">Your facial proportions are unique. Unlock your beauty report to see what makes you truly
-        unique.</p>
+      <p class="score-label">Your facial proportions are unique. Discover what makes you truly special below.</p>
     </div>
 
     <!-- Measurements Container -->
@@ -51,7 +52,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.face_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.face_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -91,7 +92,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_horizontal : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_horizontal : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -136,7 +137,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_vertical : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_vertical : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -177,7 +178,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.eye_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.eye_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -219,7 +220,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_dims : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -259,7 +260,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.mouth_nose_widths : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.mouth_nose_widths : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -301,7 +302,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_lip_chin : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_lip_chin : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -341,7 +342,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.lip_thickness : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/588eb60805-71a7d3e7408d682a3822.png'"
+                  [src]="report ? 'data:image/jpeg;base64,'+report.images.lip_thickness : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">

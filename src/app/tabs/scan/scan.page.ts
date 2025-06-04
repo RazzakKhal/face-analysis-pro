@@ -27,6 +27,7 @@ export class ScanPage {
   ) {}
 
   async ionViewWillEnter() {
+    this.stopProgress = false;
     await this.makeAnalyze();
     await this.deleteCongratulationIfExist();
   }
@@ -58,37 +59,69 @@ export class ScanPage {
     }
   }
 
-  async makeAnalyze() {
-    const photo = await this.storageHandlerService.getPhoto();
-    if (photo?.base64 && photo.format) {
-      this.currentPhoto = photo.base64;
-
-      const progressPromise = this.simulateProgressUntil100();
-
-      const apiPromise = new Promise((resolve, reject) => {
-        this.apiSubscription = this.analyzeApiService.makeAnalyze(photo.base64 as string, photo.format)
-          .subscribe({
-            next: resolve,
-            error: reject
-          });
-      });
-
-      try {
-        const response: any = await Promise.all([progressPromise, apiPromise]).then(results => results[1]);
-
-        if (!this.stopProgress) {
-          await this.storageHandlerService.saveReport(response);
-          this.router.navigateByUrl('/tabs/report');
-        }
-      } catch (error) {
-        if (!this.stopProgress) {
-          this.progress = 0;
-          await this.notifyError(error);
-          this.router.navigateByUrl('/tabs/takepicture');
-        }
-      }
-    }
+async makeAnalyze() {
+  const photo = await this.storageHandlerService.getPhoto();
+  if (!photo?.base64 || !photo.format) {
+    console.warn('📷 No valid photo found, skipping analysis.');
+    return;
   }
+
+  this.currentPhoto = photo.base64;
+
+  const progressPromise = this.simulateProgressUntil100();
+
+  const apiPromise = new Promise((resolve, reject) => {
+    this.apiSubscription = this.analyzeApiService.makeAnalyze(photo?.base64 as string, photo.format)
+      .subscribe({
+        next: (res: any) => {
+          console.log('✅ API response received:', res);
+
+          // vérification basique du contenu
+          if (res && res.ratios && res.images) {
+            resolve(res);
+          } else {
+            console.warn('⚠️ API response is incomplete or invalid');
+            reject({ status: 200, message: 'Invalid API response structure' });
+          }
+        },
+        error: (err) => {
+          console.error('❌ API request failed:', err);
+          reject(err);
+        }
+      });
+  });
+
+  try {
+    const [_, response]: any = await Promise.all([progressPromise, apiPromise]);
+
+    // Si l'utilisateur a quitté la page pendant l'attente, on ne fait rien
+    if (this.stopProgress) {
+      console.log('⏹️ Analysis aborted due to page leave.');
+      return;
+    }
+
+    try {
+      console.log('💾 Saving analysis result...');
+      await this.storageHandlerService.saveReport(response);
+    } catch (saveErr) {
+      console.error('❌ Failed to save report:', saveErr);
+      throw new Error('Error saving analysis report');
+    }
+
+    this.router.navigateByUrl('/tabs/report');
+
+  } catch (error) {
+    if (this.stopProgress) {
+      console.log('⏹️ Error ignored because user left the page:', error);
+      return;
+    }
+
+    console.error('❌ Caught error during analysis flow:', error);
+    this.progress = 0;
+    await this.notifyError(error);
+    this.router.navigateByUrl('/tabs/takepicture');
+  }
+}
 
   async notifyError(error: any) {
     const alert = await this.alertController.create({
