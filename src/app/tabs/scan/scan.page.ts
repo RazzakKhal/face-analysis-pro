@@ -28,6 +28,7 @@ export class ScanPage {
 
   async ionViewWillEnter() {
     await this.makeAnalyze();
+    await this.deleteCongratulationIfExist();
   }
 
   ionViewWillLeave() {
@@ -98,5 +99,12 @@ export class ScanPage {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  async deleteCongratulationIfExist(){
+   const congra = await this.storageHandlerService.getCongratulation()
+   if(congra !== null){
+    await this.storageHandlerService.clearCongratulation();
+   }
   }
 }

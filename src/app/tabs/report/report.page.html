@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="detailed-results-content">
+<ion-content class="detailed-results-content" *ngIf="report">
   <div id="results-page">
 
     <!-- Analyzed Photo Section -->
@@ -21,7 +21,7 @@
 
     <!-- Score Summary -->
     <div id="score-summary">
-      <p class="score-label">Your face has rare proportions. Unlock your beauty report to see what makes you truly
+      <p class="score-label">Your facial proportions are unique. Unlock your beauty report to see what makes you truly
         unique.</p>
     </div>
 
@@ -357,6 +357,53 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-content class="empty-report-page" *ngIf="!report" [fullscreen]="true">
+
+  <div id="empty-state">
+    <div id="empty-icon">
+      <div class="icon-circle">
+        <i class="fa-solid fa-chart-bar"></i>
+      </div>
+    </div>
+
+    <div id="empty-message">
+      <h2>No analysis available</h2>
+      <p>To view your detailed report, you must first perform a facial analysis.</p>
+    </div>
+
+    <div id="features-preview">
+      <div class="features-box">
+        <h3>What you will get:</h3>
+        <div class="feature-item">
+          <div class="feature-icon bg-primary">
+            <i class="fa-solid fa-ruler"></i>
+          </div>
+          <span>Facial proportion analysis</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon bg-green">
+            <i class="fa-solid fa-balance-scale"></i>
+          </div>
+          <span>Symmetry assessment</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon bg-purple">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <span>Analysis history</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="cta-section">
+      <button class="cta-button" routerLink="/tabs/takepicture">
+        <i class="fa-solid fa-camera"></i> Start my analysis
+      </button>
+      <p class="caption">AI-powered analysis • Results in seconds</p>
     </div>
   </div>
 </ion-content>

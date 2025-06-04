@@ -9,8 +9,9 @@ export class StorageHandlerService {
   private readonly photoKey = 'user-score-photo';
   private readonly reportKey = 'report';
   private readonly historyKey = 'report-history';
+  private readonly congratulationKey = 'congratulation'
 
-  constructor() {}
+  constructor() { }
 
   async savePhoto(photo: {
     base64: string | undefined;
@@ -71,4 +72,21 @@ export class StorageHandlerService {
       value: JSON.stringify(report)
     });
   }
+
+  async setCongratulation(): Promise<void> {
+    await Preferences.set({
+      key: this.congratulationKey,
+      value: 'present'
+    });
+  }
+
+  async getCongratulation(): Promise<any> {
+    const result = await Preferences.get({ key: this.congratulationKey });
+    return result.value ? result.value : null;
+  }
+
+  async clearCongratulation(){
+        await Preferences.remove({ key: this.congratulationKey });
+  }
+
 }

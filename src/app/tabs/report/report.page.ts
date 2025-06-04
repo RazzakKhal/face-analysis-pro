@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 
 @Component({
@@ -20,12 +21,18 @@ export class ReportPage {
     eye_ratio: 3.0
   };
 
-  constructor(private storageHandlerService: StorageHandlerService) { }
+  constructor(private storageHandlerService: StorageHandlerService, private alertController: AlertController
+) { }
 
   async ionViewWillEnter() {
     const report = await this.storageHandlerService.getReport();
     if (report) {
       this.report = report;
+      const idealCount = this.countIdealRatios();
+      const congratulation =await this.storageHandlerService.getCongratulation()
+      if (idealCount >= 3 && congratulation === null) {
+        this.presentCongratulationPopup();
+      }
     }
 
     const mainPhoto = await this.storageHandlerService.getPhoto();
@@ -55,4 +62,35 @@ export class ReportPage {
     return `A balanced vertical facial ratio — where the eye width, inter-eye distance, and outer spacing align — is often seen in attractive faces. Your current proportions are ${ratio1} : ${ratio2} : 1 : ${ratio3} : ${ratio4}.`;
   }
 
+  async presentCongratulationPopup() {
+    const alert = await this.alertController.create({
+      header: 'Congratulations!',
+      message: 'Your facial proportions are better than the average. That’s a rare harmony!',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+    await this.storageHandlerService.setCongratulation()
+  }
+
+  countIdealRatios(): number {
+    let count = 0;
+    const ratios = this.report?.ratios;
+    if (!ratios) return 0;
+
+    const checks = [
+      this.isIdeal(ratios.nose_ratio, this.idealRatios.nose_ratio),
+      this.isIdeal(ratios.nose_mouth_ratio, this.idealRatios.nose_mouth_ratio),
+      this.isIdeal(ratios.nose_lip_menton_ratio, this.idealRatios.nose_lip_menton_ratio),
+      this.isIdeal(ratios.lip_ratio, this.idealRatios.lip_ratio),
+      this.isIdeal(ratios.eye_ratio, this.idealRatios.eye_ratio),
+      this.isIdeal(this.report?.ratio_height_width, this.idealRatios.height_width)
+    ];
+
+    for (const isOk of checks) {
+      if (isOk) count++;
+    }
+
+    return count;
+  }
 }
