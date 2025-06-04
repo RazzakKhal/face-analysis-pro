@@ -14,7 +14,7 @@
 
     <div class="animation-container">
       <img class="face-image"
-        src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3a57d0e4ad-5f392a4368e443dec5e6.png"
+        [src]=" currentPhoto ? 'data:image/jpeg;base64,' + currentPhoto : 'https://storage.googleapis.com/uxpilot-auth.appspot.com/3a57d0e4ad-5f392a4368e443dec5e6.png'"
         alt="facial scanning technology">
 
       <div class="scan-overlay">
@@ -30,18 +30,18 @@
 
     <div class="progress-container">
       <div class="progress-bar-bg">
-        <div class="progress-bar-fill"></div>
+        <div class="progress-bar-fill" [style.width.%]="progress"></div>
       </div>
       <div class="progress-labels">
         <span>Facial analysis</span>
-        <span>70%</span>
+        <span>{{ progress }}%</span>
       </div>
     </div>
 
     <div id="features-preview">
       <div class="feature">
         <div class="feature-icon">
-          	<ion-icon name="expand-outline"></ion-icon>
+          <ion-icon name="expand-outline"></ion-icon>
         </div>
         <span class="feature-label">Symmetry</span>
       </div>

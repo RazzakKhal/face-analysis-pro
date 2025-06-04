@@ -7,19 +7,18 @@ import { take } from 'rxjs';
 })
 export class AnalyzeApiService {
 
-  private port = '5000'
-    private uri = `http://localhost:${this.port}/analyze`;
+  private uri = `https://khalapi.com/analyze-face/analyze`;
 
   constructor(private http: HttpClient) {
 
-   }
+  }
 
-   makeAnalyze(image_base64 : string, format: string){
+  makeAnalyze(image_base64: string, format: string) {
     return this.http.post(`${this.uri}`, {
       image_base64,
       format
     }).pipe(
       take(1)
     )
-   }
+  }
 }
