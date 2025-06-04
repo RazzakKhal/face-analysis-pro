@@ -103,7 +103,6 @@ export class StorageHandlerService {
         directory: Directory.Data
       });
 
-      console.log("files", files)
       const reports: any[] = [];
       for (const file of files) {
         const result = await Filesystem.readFile({

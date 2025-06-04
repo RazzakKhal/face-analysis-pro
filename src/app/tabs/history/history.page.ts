@@ -19,7 +19,6 @@ export class HistoryPage  {
   
   async ionViewWillEnter() {
         this.reports = await this.storageHandlerService.getReportHistory();
-        console.log('report', this.reports)
   }
 
 

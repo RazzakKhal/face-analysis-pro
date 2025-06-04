@@ -29,15 +29,11 @@ export class ReportPage {
 
   async ionViewDidEnter() {
     const report = await this.storageHandlerService.getReport();
-    console.log('okayyyy')
     if (report) {
-      console.log('ororororo')
       this.report = report;
       const idealCount = this.countIdealRatios();
       const congratulation = await this.storageHandlerService.getCongratulation()
-      console.log('congratotos', congratulation)
       if (idealCount >= 3 && congratulation === null) {
-        console.log("mamacita")
         this.launchConfetti(); // 🎉
         await this.presentCongratulationPopup();
       }
