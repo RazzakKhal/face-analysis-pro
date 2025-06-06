@@ -13,7 +13,6 @@ export class ReportPage {
 
   @ViewChild('confettiCanvas', { static: true }) confettiCanvas!: ElementRef<HTMLCanvasElement>;
 
-  analyzedImage: string | null = null;
   report: any;
   idealRatios = {
     height_width: 1.46,
@@ -28,21 +27,17 @@ export class ReportPage {
   ) { }
 
   async ionViewDidEnter() {
-    const report = await this.storageHandlerService.getReport();
-    if (report) {
-      this.report = report;
-      const idealCount = this.countIdealRatios();
-      const congratulation = await this.storageHandlerService.getCongratulation()
-      if (idealCount >= 3 && congratulation === null) {
-        this.launchConfetti(); // 🎉
-        await this.presentCongratulationPopup();
-      }
-    }
+    // const report = await this.storageHandlerService.getReport();
+    // if (report) {
+    //   this.report = report;
+    //   const idealCount = this.countIdealRatios();
+    //   const congratulation = await this.storageHandlerService.getCongratulation()
+    //   if (idealCount >= 3 && congratulation === null) {
+    //     this.launchConfetti(); // 🎉
+    //     await this.presentCongratulationPopup();
+    //   }
+    // }
 
-    const mainPhoto = await this.storageHandlerService.getPhoto();
-    if (mainPhoto && mainPhoto.base64) {
-      this.analyzedImage = `data:image/jpeg;base64,${mainPhoto.base64}`;
-    }
   }
 
   isIdeal(value: number, ideal: number): boolean {
@@ -74,7 +69,7 @@ export class ReportPage {
     });
 
     await alert.present();
-    await this.storageHandlerService.setCongratulation()
+ //   await this.storageHandlerService.setCongratulation()
   }
 
   countIdealRatios(): number {

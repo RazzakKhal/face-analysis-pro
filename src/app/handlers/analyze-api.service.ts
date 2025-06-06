@@ -13,10 +13,9 @@ export class AnalyzeApiService {
 
   }
 
-  makeAnalyze(image_base64: string, format: string) {
+  makeAnalyze(blob: Blob) {
     return this.http.post(`${this.uri}`, {
-      image_base64,
-      format
+      blob
     }).pipe(
       take(1)
     )

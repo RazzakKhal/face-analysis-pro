@@ -6,4 +6,9 @@ import { Injectable } from '@angular/core';
 export class PhotoHandlerService {
 
   constructor() { }
+
+  async getBlobFromPhoto(webPath : string){
+    const response = await fetch(webPath);
+    return response.blob();
+  }
 }

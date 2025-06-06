@@ -18,19 +18,19 @@ export class HistoryPage  {
 
   
   async ionViewWillEnter() {
-        this.reports = await this.storageHandlerService.getReportHistory();
+        // this.reports = await this.storageHandlerService.getReportHistory();
   }
 
 
 
   async viewReport(report: any) {
-    await this.storageHandlerService.setReportFromHistory(report);
-    this.router.navigateByUrl('/tabs/report');
+    // await this.storageHandlerService.setReportFromHistory(report);
+    // this.router.navigateByUrl('/tabs/report');
   }
 
   async clearHistory() {
-    await this.storageHandlerService.clearReportHistory();
-    this.reports = [];
+    // await this.storageHandlerService.clearReportHistory();
+    // this.reports = [];
   }
 
   hasReports(): boolean {
