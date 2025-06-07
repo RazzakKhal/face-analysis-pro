@@ -25,8 +25,8 @@ export class ScanPage {
     private storageHandlerService: StorageHandlerService,
     private router: Router,
     private alertController: AlertController,
-    private photoHandlerService : PhotoHandlerService
-  ) {}
+    private photoHandlerService: PhotoHandlerService
+  ) { }
 
   async ionViewWillEnter() {
     this.stopProgress = false;
@@ -60,71 +60,71 @@ export class ScanPage {
     }
   }
 
-async makeAnalyze() {
- // await this.deleteCongratulationIfExist();
-  const photo = await this.storageHandlerService.getPrincipalPhoto();
-  if (!photo) {
-    console.warn('📷 No valid photo found, skipping analysis.');
-    return;
+  async makeAnalyze() {
+    // await this.deleteCongratulationIfExist();
+    const photo = await this.storageHandlerService.getPrincipalPhoto();
+    if (!photo) {
+      console.warn('📷 No valid photo found, skipping analysis.');
+      return;
+    }
+
+    this.currentPhoto = photo.webPath;
+    const report = await this.getReportFromApi(photo.webPath!)
+
+    // const progressPromise = this.simulateProgressUntil100();
+
+    // const apiPromise = new Promise((resolve, reject) => {
+    //   this.apiSubscription = this.analyzeApiService.makeAnalyze(photo?.base64 as string, photo.format)
+    //     .subscribe({
+    //       next: (res: any) => {
+    //         console.log('✅ API response received:', res);
+
+    //         // vérification basique du contenu
+    //         if (res && res.ratios && res.images) {
+    //           resolve(res);
+    //         } else {
+    //           console.warn('⚠️ API response is incomplete or invalid');
+    //           reject({ status: 200, message: 'Invalid API response structure' });
+    //         }
+    //       },
+    //       error: (err) => {
+    //         console.error('❌ API request failed:', err);
+    //         reject(err);
+    //       }
+    //     });
+    // });
+
+    // try {
+    //   const [_, response]: any = await Promise.all([progressPromise, apiPromise]);
+
+    //   // Si l'utilisateur a quitté la page pendant l'attente, on ne fait rien
+    //   if (this.stopProgress) {
+    //     console.log('⏹️ Analysis aborted due to page leave.');
+    //     return;
+    //   }
+
+    //   try {
+    //     console.log('💾 Saving analysis result...');
+    //     await this.storageHandlerService.saveReport(response);
+    //   } catch (saveErr) {
+    //     console.error('❌ Failed to save report:', saveErr);
+    //     throw new Error('Error saving analysis report');
+    //   }
+
+    //   this.router.navigateByUrl('/tabs/report');
+
+    // } catch (error) {
+    //   if (this.stopProgress) {
+    //     console.log('⏹️ Error ignored because user left the page:', error);
+    //     return;
+    //   }
+
+    //   console.error('❌ Caught error during analysis flow:', error);
+    //   this.progress = 0;
+    //   await this.notifyError(error);
+    //   this.router.navigateByUrl('/tabs/takepicture');
+    // }
   }
-
-  this.currentPhoto = photo.webPath;
-
-
-  // const progressPromise = this.simulateProgressUntil100();
-
-  // const apiPromise = new Promise((resolve, reject) => {
-  //   this.apiSubscription = this.analyzeApiService.makeAnalyze(photo?.base64 as string, photo.format)
-  //     .subscribe({
-  //       next: (res: any) => {
-  //         console.log('✅ API response received:', res);
-
-  //         // vérification basique du contenu
-  //         if (res && res.ratios && res.images) {
-  //           resolve(res);
-  //         } else {
-  //           console.warn('⚠️ API response is incomplete or invalid');
-  //           reject({ status: 200, message: 'Invalid API response structure' });
-  //         }
-  //       },
-  //       error: (err) => {
-  //         console.error('❌ API request failed:', err);
-  //         reject(err);
-  //       }
-  //     });
-  // });
-
-  // try {
-  //   const [_, response]: any = await Promise.all([progressPromise, apiPromise]);
-
-  //   // Si l'utilisateur a quitté la page pendant l'attente, on ne fait rien
-  //   if (this.stopProgress) {
-  //     console.log('⏹️ Analysis aborted due to page leave.');
-  //     return;
-  //   }
-
-  //   try {
-  //     console.log('💾 Saving analysis result...');
-  //     await this.storageHandlerService.saveReport(response);
-  //   } catch (saveErr) {
-  //     console.error('❌ Failed to save report:', saveErr);
-  //     throw new Error('Error saving analysis report');
-  //   }
-
-  //   this.router.navigateByUrl('/tabs/report');
-
-  // } catch (error) {
-  //   if (this.stopProgress) {
-  //     console.log('⏹️ Error ignored because user left the page:', error);
-  //     return;
-  //   }
-
-  //   console.error('❌ Caught error during analysis flow:', error);
-  //   this.progress = 0;
-  //   await this.notifyError(error);
-  //   this.router.navigateByUrl('/tabs/takepicture');
-  // }
-}
 
   async notifyError(error: any) {
     const alert = await this.alertController.create({
@@ -137,19 +137,28 @@ async makeAnalyze() {
     await alert.present();
   }
 
-  async deleteCongratulationIfExist(){
-  //  const congra = await this.storageHandlerService.getCongratulation()
-  //  if(congra !== null){
-  //   await this.storageHandlerService.clearCongratulation();
-  //  }
+  async deleteCongratulationIfExist() {
+    //  const congra = await this.storageHandlerService.getCongratulation()
+    //  if(congra !== null){
+    //   await this.storageHandlerService.clearCongratulation();
+    //  }
   }
 
-  async getReportFromApi(webPath : string){
+  async getReportFromApi(webPath: string) {
     const blob = await this.photoHandlerService.getBlobFromPhoto(webPath)
     this.analyzeApiService.makeAnalyze(blob).subscribe({
-      next: (response) => {console.log('la réponse est : ', response)},
-      error: (error) => {console.log("l'erreur est : ", error)},
-      complete: () => {}
+      next: async (response) => {
+        const zip = await this.analyzeApiService.getZipContent(response);
+        const reportId = `report_${Date.now()}`;
+        await this.storageHandlerService.saveReportMetadata(reportId, zip);
+        await this.storageHandlerService.saveReportImages(reportId, zip);
+        await this.storageHandlerService.saveCurrentReportId(reportId);
+        console.log('la réponse est : ', response);
+        this.router.navigateByUrl('/tabs/report');
+
+      },
+      error: (error) => { console.log("l'erreur est : ", error) },
+      complete: () => { }
     })
   }
 }

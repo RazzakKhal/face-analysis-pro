@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import * as confetti from 'canvas-confetti';
 import { AlertController } from '@ionic/angular';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
+import { GlobalReport } from 'src/app/models/interfaces/report';
 
 @Component({
   selector: 'app-report',
@@ -13,7 +14,7 @@ export class ReportPage {
 
   @ViewChild('confettiCanvas', { static: true }) confettiCanvas!: ElementRef<HTMLCanvasElement>;
 
-  report: any;
+  globalReport! : GlobalReport;
   idealRatios = {
     height_width: 1.46,
     nose_ratio: 1.618,
@@ -38,6 +39,9 @@ export class ReportPage {
     //   }
     // }
 
+    this.globalReport = await this.storageHandlerService.getFullReport() as GlobalReport;
+
+  
   }
 
   isIdeal(value: number, ideal: number): boolean {
@@ -74,7 +78,7 @@ export class ReportPage {
 
   countIdealRatios(): number {
     let count = 0;
-    const ratios = this.report?.ratios;
+    const ratios = this.globalReport?.report.ratios;
     if (!ratios) return 0;
 
     const checks = [
@@ -83,7 +87,7 @@ export class ReportPage {
       this.isIdeal(ratios.nose_lip_menton_ratio, this.idealRatios.nose_lip_menton_ratio),
       this.isIdeal(ratios.lip_ratio, this.idealRatios.lip_ratio),
       this.isIdeal(ratios.eye_ratio, this.idealRatios.eye_ratio),
-      this.isIdeal(this.report?.ratio_height_width, this.idealRatios.height_width)
+      this.isIdeal(this.globalReport!.report.ratio_height_width, this.idealRatios.height_width)
     ];
 
     for (const isOk of checks) {
