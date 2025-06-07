@@ -18,7 +18,6 @@ export class TakepicturePage  {
   async takePhoto(action: string){
   
     await this.storageHandler.clearPrincipalPhoto(); 
-    console.log('apres clearprincipal photo ')
     let photo : Photo;
     if(action === 'gallery'){
       photo = await this.cameraHandler.getPhotoFromGallery();
@@ -27,7 +26,6 @@ export class TakepicturePage  {
     }
     this.previewUrl = photo.webPath; 
     await this.storageHandler.savePrincipalPhoto(photo);
-    console.log("apres saveprincipal photo")
   }
 
 }

@@ -12,17 +12,12 @@ import { GlobalReport, Report, ReportImages } from '../models/interfaces/report'
 export class StorageHandlerService {
 
   private readonly photoFile = 'photo.json';
-  private readonly reportFile = 'report.json';
-  private readonly historyFolder = 'history';
   private readonly congratFile = 'congratulation.json';
+  private readonly historyKey = 'report_history';
+
 
   constructor() { }
 
-
-  private async readAsBase64(blob : Blob) {
-
-    return await this.convertBlobToBase64(blob) as string;
-  }
 
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -109,8 +104,7 @@ export class StorageHandlerService {
   async getImageDataUrlFromReport(reportId: string, filename: string): Promise<string> {
     const path = `reports/${reportId}/${filename}`;
     const fileUri = await Filesystem.getUri({ path, directory: Directory.Data });
-    console.log('image avant : ', (fileUri.uri));
-    console.log('image apres : ', Capacitor.convertFileSrc(fileUri.uri));
+
 
     return Capacitor.convertFileSrc(fileUri.uri);
   }
@@ -130,6 +124,8 @@ export class StorageHandlerService {
       key: reportId,
       value: text
     });
+
+    await this.addReportIdToHistoryReport(reportId);
   }
 
 
@@ -158,8 +154,8 @@ export class StorageHandlerService {
 
   async getFullReport(): Promise<any> {
     const reportId = (await this.getCurrentReportId()).value
+    if(!reportId) return null;
     const report: Report = JSON.parse((await this.getCurrentReport(reportId!)).value!);
-    console.log('le rapport : ', report)
     if (!report) return null;
 
     const imageKeys = [
@@ -179,34 +175,126 @@ export class StorageHandlerService {
       images[key] = await this.getImageDataUrlFromReport(reportId!, `${key}.jpg`);
     }
 
-    console.log('les images : ', images)
     return { report: { ...report } as Report, images: images as unknown as ReportImages } as GlobalReport;
   }
 
+  /**
+   * add the report to the list of report in history
+   * @param reportId 
+   */
+  async addReportIdToHistoryReport(reportId: string) {
+    const history = await this.getReportHistoryIds();
+    history.unshift(reportId);
+    await Preferences.set({
+      key: this.historyKey,
+      value: JSON.stringify(history)
+    });
+  }
+
+  /**
+   * use to get the list that contains the history of reports
+   * @returns 
+   */
+  async getReportHistoryIds(): Promise<string[]> {
+    const { value } = await Preferences.get({ key: this.historyKey });
+    return value ? JSON.parse(value) : [];
+  }
 
 
-  // async getReportHistory(): Promise<any[]> {
-  //   try {
-  //     const { files } = await Filesystem.readdir({
-  //       path: this.historyFolder,
-  //       directory: Directory.Data
-  //     });
+  /**
+   * use to get All reports (their original photo and id)
+   * @returns 
+   */
+  async getReportHistory(): Promise<any[]> {
+    const ids = await this.getReportHistoryIds();
+    const history: Array<{ id: string, imageUrl: string }> = [];
 
-  //     const reports: any[] = [];
-  //     for (const file of files) {
-  //       const result = await Filesystem.readFile({
-  //         path: `${this.historyFolder}/${file.name}`,
-  //         directory: Directory.Data,
-  //         encoding: 'utf8' as any
-  //       });
-  //       reports.push(JSON.parse(result.data as string));
-  //     }
+    for (const id of ids) {
 
-  //     return reports.sort((a, b) => (b.date || 0).localeCompare(a.date || 0));
-  //   } catch {
-  //     return [];
-  //   }
-  // }
+      let imageUrl: string;
+      try {
+        const path = `reports/${id}/original.jpg`;
+        const fileUri = await Filesystem.getUri({ path, directory: Directory.Data });
+        imageUrl = Capacitor.convertFileSrc(fileUri.uri);
+      } catch (e) {
+        console.warn(`⚠️ Image introuvable pour le rapport ${id}`, e);
+        imageUrl = '';
+      }
+
+      history.push({ id, imageUrl });
+    }
+
+    return history;
+  }
+
+
+  /**
+   * make a report from history as new current report
+   * @param report 
+   */
+  async setReportFromHistory(reportId: string): Promise<void> {
+    await Preferences.set({
+      key: 'currentReport',
+      value: reportId
+    });
+  }
+
+
+  /**
+   * delete a report from prefenrence, filesystem, and history
+   * @param reportId 
+   * @returns 
+   */
+  async clearReport(reportId: string) {
+    try {
+      // Supprime le report dans Preferences
+      await Preferences.remove({ key: reportId });
+
+      // Supprime les images du répertoire
+      await Filesystem.rmdir({
+        path: `reports/${reportId}`,
+        directory: Directory.Data,
+        recursive: true
+      });
+
+      // Supprime l'id du tableau d'historique
+      const currentHistory = await Preferences.get({ key: 'report_history' });
+      const ids = currentHistory.value ? JSON.parse(currentHistory.value) : [];
+      const updated = ids.filter((id: string) => id !== reportId);
+      await Preferences.set({
+        key: 'report_history',
+        value: JSON.stringify(updated)
+      });
+
+      return await this.getReportHistory();
+    } catch (err) {
+      console.error('❌ Échec suppression rapport :', err);
+      return await this.getReportHistory();
+    }
+  }
+
+  /**
+   * clear all reports
+   */
+  async clearAllStorage(): Promise<void> {
+  try {
+    await Filesystem.rmdir({
+      path: 'reports',
+      directory: Directory.Data,
+      recursive: true
+    });
+  } catch (err) {
+    console.warn('Erreur lors du nettoyage du filesystem', err);
+  }
+
+  // Supprime toutes les préférences (rapports, currentReport, historique, etc.)
+  try {
+    await Preferences.clear();
+  } catch (err) {
+    console.warn('Erreur lors du nettoyage des préférences', err);
+  }
+}
+
 
   // async clearReportHistory(): Promise<void> {
   //   try {
@@ -222,15 +310,6 @@ export class StorageHandlerService {
   //       });
   //     }
   //   } catch {}
-  // }
-
-  // async setReportFromHistory(report: any): Promise<void> {
-  //   await Filesystem.writeFile({
-  //     path: this.reportFile,
-  //     data: JSON.stringify(report),
-  //     directory: Directory.Data,
-  //     encoding: 'utf8' as any
-  //   });
   // }
 
   // async setCongratulation(): Promise<void> {

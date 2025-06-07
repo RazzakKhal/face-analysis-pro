@@ -22,14 +22,13 @@
       <div class="report-card" *ngFor="let r of reports">
         <div class="report-header">
           <div class="report-image">
-            <img [src]=" r.preview?'data:image/jpeg;base64,' +r.preview : 'assets/logodessinrogne.png'"
-              alt="Analysis Photo" />
+            <img [src]=" r ? r.imageUrl : 'assets/logodessinrogne.png'" alt="Analysis Photo" />
           </div>
           <div class="report-info">
             <div class="report-info-top">
               <span class="report-title">Analysis</span>
             </div>
-            <div class="report-date">{{ r.date | date: 'd MMMM yyyy' }}</div>
+            <div class="report-date">{{ r.id }}</div>
           </div>
         </div>
         <div class="report-footer">
@@ -37,8 +36,11 @@
             <i class="fa-solid fa-chart-simple"></i>
             <span>Full report</span>
           </div>
-          <button class="report-button" (click)="viewReport(r)">
+          <button class="report-button" (click)="viewReport(r.id)">
             <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <button class="report-button delete-button" (click)="deleteReport(r.id)">
+            <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
       </div>
@@ -48,12 +50,12 @@
 
     </div>
     <div class="bottom-page">
-        <div class="no-history" *ngIf="!hasReports()">
-          <p>No analysis history found.</p>
-        </div>
+      <div class="no-history" *ngIf="!hasReports()">
+        <p>No analysis history found.</p>
+      </div>
 
-      <button class="clear-history" (click)="clearHistory()">
-       Clear History
+      <button class="clear-history" (click)="confirmClearHistory()">
+        Clear History
       </button>
     </div>
 

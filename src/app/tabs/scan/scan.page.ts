@@ -73,26 +73,6 @@ export class ScanPage {
 
     // const progressPromise = this.simulateProgressUntil100();
 
-    // const apiPromise = new Promise((resolve, reject) => {
-    //   this.apiSubscription = this.analyzeApiService.makeAnalyze(photo?.base64 as string, photo.format)
-    //     .subscribe({
-    //       next: (res: any) => {
-    //         console.log('✅ API response received:', res);
-
-    //         // vérification basique du contenu
-    //         if (res && res.ratios && res.images) {
-    //           resolve(res);
-    //         } else {
-    //           console.warn('⚠️ API response is incomplete or invalid');
-    //           reject({ status: 200, message: 'Invalid API response structure' });
-    //         }
-    //       },
-    //       error: (err) => {
-    //         console.error('❌ API request failed:', err);
-    //         reject(err);
-    //       }
-    //     });
-    // });
 
     // try {
     //   const [_, response]: any = await Promise.all([progressPromise, apiPromise]);
@@ -153,7 +133,6 @@ export class ScanPage {
         await this.storageHandlerService.saveReportMetadata(reportId, zip);
         await this.storageHandlerService.saveReportImages(reportId, zip);
         await this.storageHandlerService.saveCurrentReportId(reportId);
-        console.log('la réponse est : ', response);
         this.router.navigateByUrl('/tabs/report');
 
       },
