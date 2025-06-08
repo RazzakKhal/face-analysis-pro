@@ -5,6 +5,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import * as JSZip from 'jszip';
 import { GlobalReport, Report, ReportImages } from '../models/interfaces/report';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class StorageHandlerService {
   private readonly historyKey = 'report_history';
 
 
-  constructor() { }
+  constructor(private platform: Platform) { }
 
 
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
@@ -103,10 +104,24 @@ export class StorageHandlerService {
    */
   async getImageDataUrlFromReport(reportId: string, filename: string): Promise<string> {
     const path = `reports/${reportId}/${filename}`;
-    const fileUri = await Filesystem.getUri({ path, directory: Directory.Data });
+    if (this.platform.is('desktop') || this.platform.is('mobileweb')) {
+      // Plateforme Web : on retourne un data URL base64
+      const file = await Filesystem.readFile({
+        path,
+        directory: Directory.Data
+      });
 
+      // Mime-type par défaut : JPEG
+      return `data:image/jpeg;base64,${file.data}`;
+    } else {
+      // Plateforme native (Android/iOS) : on retourne un URI converti
+      const fileUri = await Filesystem.getUri({
+        path,
+        directory: Directory.Data
+      });
 
-    return Capacitor.convertFileSrc(fileUri.uri);
+      return Capacitor.convertFileSrc(fileUri.uri);
+    }
   }
 
   /**
@@ -135,13 +150,12 @@ export class StorageHandlerService {
    * @param zip 
    */
   async saveReportImages(reportId: string, zip: JSZip) {
+
     const entries = Object.keys(zip.files);
 
     for (const filename of entries) {
       if (filename.endsWith('.jpg')) {
         const blob = await zip.file(filename)!.async('blob');
-
-
         await Filesystem.writeFile({
           path: `reports/${reportId}/${filename}`,
           data: await this.convertBlobToBase64(blob) as string,
