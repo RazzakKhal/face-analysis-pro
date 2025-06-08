@@ -154,7 +154,7 @@ export class StorageHandlerService {
 
   async getFullReport(): Promise<any> {
     const reportId = (await this.getCurrentReportId()).value
-    if(!reportId) return null;
+    if (!reportId) return null;
     const report: Report = JSON.parse((await this.getCurrentReport(reportId!)).value!);
     if (!report) return null;
 
@@ -244,21 +244,21 @@ export class StorageHandlerService {
    * delete the older report when arrived to 11 reports
    * @param history 
    */
-  async clearOlderReport(history: string[]){
-     // Si on dépasse 10, on supprime le plus ancien
-  if (history.length > 10) {
-    const oldestReportId = history.pop()!;
+  async clearOlderReport(history: string[]) {
+    // Si on dépasse 10, on supprime le plus ancien
+    if (history.length > 10) {
+      const oldestReportId = history.pop()!;
 
-    // Supprime les fichiers associés dans le filesystem
-    await Filesystem.rmdir({
-      path: `reports/${oldestReportId}`,
-      directory: Directory.Data,
-      recursive: true
-    }).catch(() => {});
+      // Supprime les fichiers associés dans le filesystem
+      await Filesystem.rmdir({
+        path: `reports/${oldestReportId}`,
+        directory: Directory.Data,
+        recursive: true
+      }).catch(() => { });
 
-    // Supprime le rapport des preferences
-    await Preferences.remove({ key: oldestReportId });
-  }
+      // Supprime le rapport des preferences
+      await Preferences.remove({ key: oldestReportId });
+    }
   }
 
   /**
@@ -298,53 +298,44 @@ export class StorageHandlerService {
    * clear all reports
    */
   async clearAllStorage(): Promise<void> {
-  try {
-    await Filesystem.rmdir({
-      path: 'reports',
-      directory: Directory.Data,
-      recursive: true
+    try {
+      await Filesystem.rmdir({
+        path: 'reports',
+        directory: Directory.Data,
+        recursive: true
+      });
+    } catch (err) {
+      console.warn('Erreur lors du nettoyage du filesystem', err);
+    }
+
+    // Supprime toutes les préférences (rapports, currentReport, historique, etc.)
+    try {
+      await Preferences.clear();
+    } catch (err) {
+      console.warn('Erreur lors du nettoyage des préférences', err);
+    }
+  }
+
+
+  async setCongratulation(): Promise<void> {
+    await Preferences.set({
+      key: this.congratFile,
+      value: 'present'
     });
-  } catch (err) {
-    console.warn('Erreur lors du nettoyage du filesystem', err);
   }
 
-  // Supprime toutes les préférences (rapports, currentReport, historique, etc.)
-  try {
-    await Preferences.clear();
-  } catch (err) {
-    console.warn('Erreur lors du nettoyage des préférences', err);
+  async getCongratulation(): Promise<string | null> {
+    try {
+      const result = await Preferences.get({ key: this.congratFile });
+      return result.value ?? null;
+    } catch {
+      return null;
+    }
   }
-}
 
-
-  // async setCongratulation(): Promise<void> {
-  //   await Filesystem.writeFile({
-  //     path: this.congratFile,
-  //     data: 'present',
-  //     directory: Directory.Data,
-  //     encoding: 'utf8' as any
-  //   });
-  // }
-
-  // async getCongratulation(): Promise<string | null> {
-  //   try {
-  //     const result = await Filesystem.readFile({
-  //       path: this.congratFile,
-  //       directory: Directory.Data,
-  //       encoding: 'utf8' as any
-  //     });
-  //     return result.data as string;
-  //   } catch {
-  //     return null;
-  //   }
-  // }
-
-  // async clearCongratulation(): Promise<void> {
-  //   try {
-  //     await Filesystem.deleteFile({
-  //       path: this.congratFile,
-  //       directory: Directory.Data
-  //     });
-  //   } catch {}
-  // }
+  async clearCongratulation(): Promise<void> {
+    try {
+      await Preferences.remove({ key: this.congratFile });
+    } catch { }
+  }
 }

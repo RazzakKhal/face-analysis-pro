@@ -54,7 +54,7 @@ export class ScanPage {
   }
 
   async makeAnalyze() {
-    // await this.deleteCongratulationIfExist();
+    await this.storageHandlerService.clearCongratulation()
     const photo = await this.storageHandlerService.getPrincipalPhoto();
     if (!photo) {
       console.warn('📷 No valid photo found, skipping analysis.');
@@ -89,14 +89,6 @@ export class ScanPage {
     });
     await alert.present();
   }
-
-  async deleteCongratulationIfExist() {
-    //  const congra = await this.storageHandlerService.getCongratulation()
-    //  if(congra !== null){
-    //   await this.storageHandlerService.clearCongratulation();
-    //  }
-  }
-
 
   /**
    * observable that contains the logical for the report process
