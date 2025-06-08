@@ -17,7 +17,9 @@
         </button>
       </div>
     </div>
-
+      <div class="header-description">
+        Only the last 10 reports are saved. Older ones will be deleted automatically.
+      </div>
     <div id="reports-list" class="reports-list" *ngIf="hasReports()">
       <div class="report-card" *ngFor="let r of reports">
         <div class="report-header">

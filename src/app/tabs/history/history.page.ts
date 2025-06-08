@@ -30,10 +30,6 @@ export class HistoryPage  {
     this.router.navigateByUrl('/tabs/report');
   }
 
-  async clearHistory() {
-    // await this.storageHandlerService.clearReportHistory();
-    // this.reports = [];
-  }
 
   async deleteReport(repordId : string){
     this.reports = await this.storageHandlerService.clearReport(repordId);

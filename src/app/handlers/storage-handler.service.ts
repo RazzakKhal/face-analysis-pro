@@ -185,6 +185,7 @@ export class StorageHandlerService {
   async addReportIdToHistoryReport(reportId: string) {
     const history = await this.getReportHistoryIds();
     history.unshift(reportId);
+    await this.clearOlderReport(history);
     await Preferences.set({
       key: this.historyKey,
       value: JSON.stringify(history)
@@ -239,6 +240,26 @@ export class StorageHandlerService {
     });
   }
 
+  /**
+   * delete the older report when arrived to 11 reports
+   * @param history 
+   */
+  async clearOlderReport(history: string[]){
+     // Si on dépasse 10, on supprime le plus ancien
+  if (history.length > 10) {
+    const oldestReportId = history.pop()!;
+
+    // Supprime les fichiers associés dans le filesystem
+    await Filesystem.rmdir({
+      path: `reports/${oldestReportId}`,
+      directory: Directory.Data,
+      recursive: true
+    }).catch(() => {});
+
+    // Supprime le rapport des preferences
+    await Preferences.remove({ key: oldestReportId });
+  }
+  }
 
   /**
    * delete a report from prefenrence, filesystem, and history
@@ -295,22 +316,6 @@ export class StorageHandlerService {
   }
 }
 
-
-  // async clearReportHistory(): Promise<void> {
-  //   try {
-  //     const { files } = await Filesystem.readdir({
-  //       path: this.historyFolder,
-  //       directory: Directory.Data
-  //     });
-
-  //     for (const file of files) {
-  //       await Filesystem.deleteFile({
-  //         path: `${this.historyFolder}/${file.name}`,
-  //         directory: Directory.Data
-  //       });
-  //     }
-  //   } catch {}
-  // }
 
   // async setCongratulation(): Promise<void> {
   //   await Filesystem.writeFile({
