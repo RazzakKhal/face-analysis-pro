@@ -8,7 +8,7 @@
 </ion-header>
   <canvas #confettiCanvas style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
 
-<ion-content class="detailed-results-content" *ngIf="report">
+<ion-content class="detailed-results-content" *ngIf="globalReport">
 
   <div id="results-page">
 
@@ -16,7 +16,7 @@
     <div id="analyzed-photo">
       <div class="photo-container">
         <img
-          [src]="report ? 'data:image/jpeg;base64,'+report.images.original : 'assets/logodessinrogne.png'"
+          [src]="globalReport ? globalReport.images.original : 'assets/logodessinrogne.png'"
           alt="portrait photo" />
       </div>
     </div>
@@ -38,11 +38,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratio_height_width < idealRatios.height_width * 0.80">
+                <div class="ratio-item" [class.warning]="globalReport.report.ratio_height_width < idealRatios.height_width * 0.80">
                   Wide / Short</div>
-                <div class="ratio-item" [class.active]="isIdeal(report?.ratio_height_width, idealRatios.height_width)">
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.ratio_height_width, idealRatios.height_width)">
                   Ideal</div>
-                <div class="ratio-item" [class.warning]="report?.ratio_height_width > idealRatios.height_width * 1.20">
+                <div class="ratio-item" [class.warning]="globalReport.report.ratio_height_width > idealRatios.height_width * 1.20">
                   Thin / Long</div>
               </div>
             </div>
@@ -52,14 +52,14 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.face_dims : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.face_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
                 <p>The golden ratio of facial aspect is the ratio between the height and the width of the face,
                   ideally following the golden ratio of 1:1.46 to create a balanced and aesthetically pleasing
                   appearance.</p>
-                <p class="paragraph-margin">Your ratio for this measurement is {{report?.ratio_height_width | number:
+                <p class="paragraph-margin">Your ratio for this measurement is {{globalReport.report.ratio_height_width | number:
                   '1.2-2'}}</p>
               </div>
             </div>
@@ -79,10 +79,10 @@
             <div class="ratio-box">
               <div class="ratio-grid">
                 <div class="ratio-item"
-                  [class.warning]="!isIdeal(report?.tier1 / report?.tier2, 1.0) || !isIdeal(report?.tier3 / report?.tier2, 1.0)">
+                  [class.warning]="!isIdeal(globalReport.report.tier1 / globalReport.report.tier2, 1.0) || !isIdeal(globalReport.report.tier3 / globalReport.report.tier2, 1.0)">
                   Less Ideal</div>
                 <div class="ratio-item"
-                  [class.active]="isIdeal(report?.tier1 / report?.tier2, 1.0) && isIdeal(report?.tier3 / report?.tier2, 1.0)">
+                  [class.active]="isIdeal(globalReport.report.tier1 / globalReport.report.tier2, 1.0) && isIdeal(globalReport.report.tier3 / globalReport.report.tier2, 1.0)">
                   Ideal</div>
               </div>
             </div>
@@ -92,7 +92,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_horizontal : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.grid_horizontal : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -101,7 +101,7 @@
                   from the hairline to the bottom of the eyebrows, from the bottom of the eyebrows to the bottom of the
                   nose, and from the bottom of the nose to the
                   tip of the chin. The ideal proportion is 1:1:1.</p>
-                <p class="paragraph-margin">{{ report? this.getTierRatioMessage(report.tier1,report.tier2,report.tier3 )
+                <p class="paragraph-margin">{{ globalReport ? this.getTierRatioMessage(globalReport.report.tier1,globalReport.report.tier2,globalReport.report.tier3 )
                   : ''}}</p>
                 <p>Note: This measurement may be distorted if your hair covers your forehead.
                 </p>
@@ -121,14 +121,14 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="!isIdeal(report?.segment_widths[0] / report?.segment_widths[2], 1.0)
-    || !isIdeal(report?.segment_widths[1] / report?.segment_widths[2], 1.0)
-    || !isIdeal(report?.segment_widths[3] / report?.segment_widths[2], 1.0)
-    || !isIdeal(report?.segment_widths[4] / report?.segment_widths[2], 1.0)">Less Ideal</div>
-                <div class="ratio-item" [class.active]="isIdeal(report?.segment_widths[0] / report?.segment_widths[2], 1.0)
-    && isIdeal(report?.segment_widths[1] / report?.segment_widths[2], 1.0)
-    && isIdeal(report?.segment_widths[3] / report?.segment_widths[2], 1.0)
-    && isIdeal(report?.segment_widths[4] / report?.segment_widths[2], 1.0)">Ideal</div>
+                <div class="ratio-item" [class.warning]="!isIdeal(globalReport.report.segment_widths[0] / globalReport.report.segment_widths[2], 1.0)
+    || !isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
+    || !isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)
+    || !isIdeal(globalReport.report.segment_widths[4] / globalReport.report.segment_widths[2], 1.0)">Less Ideal</div>
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.segment_widths[0] / globalReport.report.segment_widths[2], 1.0)
+    && isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
+    && isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)
+    && isIdeal(globalReport.report.segment_widths[4] / globalReport.report.segment_widths[2], 1.0)">Ideal</div>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.grid_vertical : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.grid_vertical : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -145,9 +145,9 @@
                   sections: the width of one eye,
                   the distance between the eyes, and the space between the outer corners of the eyes and the edges of
                   the face. This proportion should be 1:1:1:1:1.</p>
-                <p class="paragraph-margin">{{ report ?
-                  this.getVerticalRatioMessage(report.segment_widths[0],report.segment_widths[1],report.segment_widths[2],
-                  report.segment_widths[3], report.segment_widths[4] ) : ''}}</p>
+                <p class="paragraph-margin">{{ globalReport ?
+                  this.getVerticalRatioMessage(globalReport.report.segment_widths[0],globalReport.report.segment_widths[1],globalReport.report.segment_widths[2],
+                  globalReport.report.segment_widths[3], globalReport.report.segment_widths[4] ) : ''}}</p>
               </div>
             </div>
           </div>
@@ -164,11 +164,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio < idealRatios.eye_ratio * 0.80">Tall /
+                <div class="ratio-item" [class.warning]="globalReport.report.ratios.eye_ratio < idealRatios.eye_ratio * 0.80">Tall /
                   Narrow</div>
-                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.eye_ratio, idealRatios.eye_ratio)">Ideal
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.ratios.eye_ratio, idealRatios.eye_ratio)">Ideal
                 </div>
-                <div class="ratio-item" [class.warning]="report?.ratios.eye_ratio > idealRatios.eye_ratio * 1.20">Wide /
+                <div class="ratio-item" [class.warning]="globalReport.report.ratios.eye_ratio > idealRatios.eye_ratio * 1.20">Wide /
                   Small</div>
               </div>
             </div>
@@ -178,7 +178,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.eye_dims : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.eye_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -187,7 +187,7 @@
                   This proportion is generally expressed as 1:3, meaning that the width of the eye should be three times
                   its height for a balanced and aesthetically pleasing look.</p>
                 <p class="paragraph-margin">This proportion creates a balanced and aesthetic appearance. Your ratio is
-                  {{report?.ratios.eye_ratio}}</p>
+                  {{globalReport.report.ratios.eye_ratio}}</p>
                 <p>Note: This measurement may be distorted by wearing glasses.
                 </p>
               </div>
@@ -206,11 +206,11 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio < idealRatios.nose_ratio * 0.80">Wide
+                <div class="ratio-item" [class.warning]="globalReport.report.ratios.nose_ratio < idealRatios.nose_ratio * 0.80">Wide
                   / Short</div>
-                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.nose_ratio, idealRatios.nose_ratio)">
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.ratios.nose_ratio, idealRatios.nose_ratio)">
                   Ideal</div>
-                <div class="ratio-item" [class.warning]="report?.ratios.nose_ratio > idealRatios.nose_ratio * 1.20">
+                <div class="ratio-item" [class.warning]="globalReport.report.ratios.nose_ratio > idealRatios.nose_ratio * 1.20">
                   Narrow / Long</div>
               </div>
             </div>
@@ -220,14 +220,14 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_dims : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.nose_dims : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
                 <p>The golden ratio of nose aspect is the ratio between the width and the height of the nose, ideally
                   following the golden ratio of 1:1.618.</p>
                 <p class="paragraph-margin">Your ratio is
-                  {{report?.ratios.nose_ratio}}</p>
+                  {{globalReport.report.ratios.nose_ratio}}</p>
               </div>
             </div>
           </div>
@@ -245,12 +245,12 @@
             <div class="ratio-box">
               <div class="ratio-grid">
                 <div class="ratio-item"
-                  [class.warning]="report?.ratios.nose_mouth_ratio < idealRatios.nose_mouth_ratio * 0.80">Wide nose /
+                  [class.warning]="globalReport.report.ratios.nose_mouth_ratio < idealRatios.nose_mouth_ratio * 0.80">Wide nose /
                   Close-set lips</div>
                 <div class="ratio-item"
-                  [class.active]="isIdeal(report?.ratios.nose_mouth_ratio, idealRatios.nose_mouth_ratio)">Ideal</div>
+                  [class.active]="isIdeal(globalReport.report.ratios.nose_mouth_ratio, idealRatios.nose_mouth_ratio)">Ideal</div>
                 <div class="ratio-item"
-                  [class.warning]="report?.ratios.nose_mouth_ratio > idealRatios.nose_mouth_ratio * 1.20">Narrow nose /
+                  [class.warning]="globalReport.report.ratios.nose_mouth_ratio > idealRatios.nose_mouth_ratio * 1.20">Narrow nose /
                   Wide lips</div>
               </div>
             </div>
@@ -260,7 +260,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.mouth_nose_widths : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.mouth_nose_widths : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -269,7 +269,7 @@
                   which should ideally follow the golden ratio of 1:1.618 for a balanced and aesthetically pleasing
                   appearance.</p>
                 <p class="paragraph-margin">This proportion is a universal marker of beauty. Your ratio is
-                  {{report?.ratios.nose_mouth_ratio}}</p>
+                  {{globalReport.report.ratios.nose_mouth_ratio}}</p>
                 <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
                 </p>
               </div>
@@ -289,10 +289,10 @@
             <div class="ratio-box">
               <div class="ratio-grid">
                 <div class="ratio-item"
-                  [class.warning]="!isIdeal(report?.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
+                  [class.warning]="!isIdeal(globalReport.report.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
                   Less Ideal</div>
                 <div class="ratio-item"
-                  [class.active]="isIdeal(report?.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
+                  [class.active]="isIdeal(globalReport.report.ratios.nose_lip_menton_ratio, idealRatios.nose_lip_menton_ratio)">
                   Ideal</div>
               </div>
             </div>
@@ -302,7 +302,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.nose_lip_chin : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.nose_lip_chin : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -311,7 +311,7 @@
                   and the distance from the center of the
                   lips to the chin should be 1.618. This ratio creates a balanced and harmonious lower face, following
                   the principles of facial symmetry.</p>
-                <p class="paragraph-margin">Your ratio is {{report?.ratios.nose_lip_menton_ratio}}</p>
+                <p class="paragraph-margin">Your ratio is {{globalReport.report.ratios.nose_lip_menton_ratio}}</p>
                 <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
                 </p>
               </div>
@@ -330,9 +330,9 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="!isIdeal(report?.ratios.lip_ratio, idealRatios.lip_ratio)">Less
+                <div class="ratio-item" [class.warning]="!isIdeal(globalReport.report.ratios.lip_ratio, idealRatios.lip_ratio)">Less
                   Ideal</div>
-                <div class="ratio-item" [class.active]="isIdeal(report?.ratios.lip_ratio, idealRatios.lip_ratio)">Ideal
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.ratios.lip_ratio, idealRatios.lip_ratio)">Ideal
                 </div>
               </div>
             </div>
@@ -342,7 +342,7 @@
             <div class="info-content">
               <div class="info-image">
                 <img
-                  [src]="report ? 'data:image/jpeg;base64,'+report.images.lip_thickness : 'assets/logodessinrogne.png'"
+                  [src]="globalReport ? globalReport.images.lip_thickness : 'assets/logodessinrogne.png'"
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
@@ -350,7 +350,7 @@
                   1.618 times the height of the upper lip.
                   This proportion creates a balanced and aesthetic appearance, with the lower lip being slightly fuller
                   than the upper lip.</p>
-                <p class="paragraph-margin">Your ratio is {{report?.ratios.lip_ratio}}</p>
+                <p class="paragraph-margin">Your ratio is {{globalReport.report.ratios.lip_ratio}}</p>
                 <p>Note: This measurement may be distorted if you are smiling or if you have a beard covering your lips.
                 </p>
               </div>
@@ -362,7 +362,7 @@
   </div>
 </ion-content>
 
-<ion-content class="empty-report-page" *ngIf="!report" [fullscreen]="true">
+<ion-content class="empty-report-page" *ngIf="!globalReport" [fullscreen]="true">
 
   <div id="empty-state">
     <div id="empty-icon">
@@ -373,7 +373,7 @@
 
     <div id="empty-message">
       <h2>No analysis available</h2>
-      <p>To view your detailed report, you must first perform a facial analysis.</p>
+      <p>To view your detailed report, you must first perform a facial analysis or select one in history.</p>
     </div>
 
     <div id="features-preview">
