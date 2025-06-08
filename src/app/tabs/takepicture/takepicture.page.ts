@@ -9,23 +9,27 @@ import { StorageHandlerService } from 'src/app/handlers/storage-handler.service'
   styleUrls: ['./takepicture.page.scss'],
   standalone: false
 })
-export class TakepicturePage  {
+export class TakepicturePage {
   previewUrl: string | undefined;
 
-  constructor(private cameraHandler: CameraHandlerService, private storageHandler : StorageHandlerService) { }
+  constructor(private cameraHandler: CameraHandlerService, private storageHandler: StorageHandlerService) { }
 
-  
-  async takePhoto(action: string){
-  
-    await this.storageHandler.clearPrincipalPhoto(); 
-    let photo : Photo;
-    if(action === 'gallery'){
-      photo = await this.cameraHandler.getPhotoFromGallery();
-    }else{
-      photo = await this.cameraHandler.getPhotoFromCamera();
+
+  async takePhoto(action: string) {
+    try {
+      await this.storageHandler.clearPrincipalPhoto();
+      let photo: Photo;
+      if (action === 'gallery') {
+        photo = await this.cameraHandler.getPhotoFromGallery();
+      } else {
+        photo = await this.cameraHandler.getPhotoFromCamera();
+      }
+      this.previewUrl = photo.webPath;
+      await this.storageHandler.savePrincipalPhoto(photo);
+    } catch {
+
     }
-    this.previewUrl = photo.webPath; 
-    await this.storageHandler.savePrincipalPhoto(photo);
+
   }
 
 }

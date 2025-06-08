@@ -42,8 +42,8 @@ ion-header {
 
 #face-frame {
   position: relative;
-  width: 256px;
-  height: 256px;
+  width: 192px;
+  height: 192px;
   border: 2px dashed #6366f1;
   border-radius: 50%;
   margin-bottom: 32px;
@@ -67,8 +67,8 @@ ion-header {
 
 .face-circle-overlay {
   position: absolute;
-  width: 192px;
-  height: 192px;
+  width: 156px;
+  height: 156px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
