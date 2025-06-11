@@ -122,19 +122,15 @@
             <div class="label">Your ratio</div>
             <div class="ratio-box">
               <div class="ratio-grid">
-                <div class="ratio-item" [class.warning]="!isIdeal(globalReport.report.segment_widths[0] / globalReport.report.segment_widths[2], 1.0)
-    || !isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
-    || !isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)
-    || !isIdeal(globalReport.report.segment_widths[4] / globalReport.report.segment_widths[2], 1.0)">Less Ideal</div>
-                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.segment_widths[0] / globalReport.report.segment_widths[2], 1.0)
-    && isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
-    && isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)
-    && isIdeal(globalReport.report.segment_widths[4] / globalReport.report.segment_widths[2], 1.0)">Ideal</div>
+                <div class="ratio-item" [class.warning]="!isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
+    || !isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)">Less Ideal</div>
+                <div class="ratio-item" [class.active]="isIdeal(globalReport.report.segment_widths[1] / globalReport.report.segment_widths[2], 1.0)
+    && isIdeal(globalReport.report.segment_widths[3] / globalReport.report.segment_widths[2], 1.0)">Ideal</div>
               </div>
             </div>
           </div>
           <div class="info-box">
-            <div class="info-title">Ratio 1:1:1:1:1</div>
+            <div class="info-title">Ratio 1:1:1</div>
             <div class="info-content">
               <div class="info-image">
                 <img
@@ -142,10 +138,7 @@
                   alt="Golden ratio lips" />
               </div>
               <div class="info-text">
-                <p>The golden ratio of the vertical face is determined by dividing the face horizontally into five equal
-                  sections: the width of one eye,
-                  the distance between the eyes, and the space between the outer corners of the eyes and the edges of
-                  the face. This proportion should be 1:1:1:1:1.</p>
+                <p>According to the golden ratio, an aesthetically balanced face often shows equal proportions between the width of each eye and the distance between the eyes. Ideally, this forms a 1:1:1 ratio.</p>
                 <p class="paragraph-margin">{{ globalReport ?
                   this.getVerticalRatioMessage(globalReport.report.segment_widths[0],globalReport.report.segment_widths[1],globalReport.report.segment_widths[2],
                   globalReport.report.segment_widths[3], globalReport.report.segment_widths[4] ) : ''}}</p>
