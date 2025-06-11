@@ -10,7 +10,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "sync:ios": "npx cap sync ios && cd ios/App && pod install"
+    "sync:ios": "npx cap sync ios && cd ios/App && pod install",
+    "sync:init:ios" : "npx cap add ios",
+    "sync:ios:resources" : "npx capacitor-assets generate --ios",
+    "open:ios" : "npx cap open ios"
 
   },
   "private": true,
