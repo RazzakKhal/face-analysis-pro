@@ -1,5 +1,5 @@
 {
-  "name": "golden-ratio-face-analyzer",
+  "name": "face-analysis-pro",
   "version": "0.0.1",
   "author": "Razzak Khalfallah",
   "homepage": "https://ionicframework.com/",
@@ -10,10 +10,11 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "sync:ios": "npx cap sync ios && cd ios/App && pod install",
+    "sync:ios": "ionic build && npx cap sync ios && cd ios/App && pod install",
     "sync:init:ios" : "npx cap add ios",
     "sync:ios:resources" : "npx capacitor-assets generate --ios",
-    "open:ios" : "npx cap open ios"
+    "open:ios" : "npx cap open ios",
+    "create:page" : "ionic generate page"
 
   },
   "private": true,

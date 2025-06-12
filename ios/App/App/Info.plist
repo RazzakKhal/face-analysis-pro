@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Golden Ratio Face Analyzer</string>
+	<string>Face Analysis Pro</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -43,12 +43,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app may save your analysis result to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app may access your photo library to select a picture for analysis</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app may access your photo library to save a picture after analysis</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to your camera to analyze your face</string>
+	<string>This app may access your camera to take a photo for analysis</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>

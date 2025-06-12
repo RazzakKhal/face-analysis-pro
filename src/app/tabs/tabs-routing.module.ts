@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: () => import('./history/history.module').then(m => m.HistoryPageModule)
       },
       {
+        path: 'paywall',
+        loadChildren: () => import('./paywall/paywall.module').then(m => m.PaywallPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

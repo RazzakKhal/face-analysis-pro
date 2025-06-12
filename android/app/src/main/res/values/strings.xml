@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Golden Ratio Face Analyzer</string>
-    <string name="title_activity_main">Golden Ratio Face Analyzer</string>
-    <string name="package_name">com.goldenratio.analyzer</string>
-    <string name="custom_url_scheme">com.goldenratio.analyzer</string>
-</resources>
