@@ -48,7 +48,7 @@
     <!-- Pricing Plans -->
     <div class="pricing-plans">
       <!-- Yearly Plan -->
-      <div class="plan yearly-plan">
+      <div class="plan yearly-plan" [class.selected-plan]="yearlyPlan" (click)="selectedPlan('yearly')">
         <div class="badge">SAVE 90%</div>
         <div class="plan-header">
           <div>
@@ -63,7 +63,7 @@
         </div>
       </div>
       <!-- Trial Plan -->
-      <div class="plan trial-plan">
+      <div class="plan" [class.selected-plan]="weeklyPlan" (click)="selectedPlan('weekly')">
         <div class="plan-header">
           <div>
             <h3>3-Day Trial</h3>
@@ -78,10 +78,10 @@
     </div>
 
     <!-- Trial Toggle -->
-    <div class="trial-toggle">
+    <div class="trial-toggle" >
       <span>Free trial enabled</span>
       <label class="switch">
-        <input type="checkbox" checked>
+        <input (change)="freeTrialToggle()" type="checkbox" checked>
         <span class="slider"></span>
       </label>
     </div>
