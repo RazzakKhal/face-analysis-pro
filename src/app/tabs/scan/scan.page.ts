@@ -26,7 +26,8 @@ export class ScanPage {
     private router: Router,
     private alertController: AlertController,
     private photoHandlerService: PhotoHandlerService,
-    private paymentService : PaymentService
+    private paymentService : PaymentService,
+    private storageHandler : StorageHandlerService
   ) { }
 
   async ionViewWillEnter() {
@@ -72,13 +73,17 @@ export class ScanPage {
     const api$ = this.getReportFromApi(photo.webPath!);
 
     forkJoin([progress$, api$]).subscribe({
-      next: () => {
+      next: async () => {
           this.router.navigateByUrl('/tabs/report');
       },
       error: async (err) => {
           this.progress = 0;
           await this.notifyError(err);
           this.router.navigateByUrl('/tabs/takepicture');
+      },
+      complete: async () => {
+          await this.storageHandler.clearPrincipalPhoto();
+
       }
     });
 

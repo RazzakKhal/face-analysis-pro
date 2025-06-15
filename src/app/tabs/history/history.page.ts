@@ -46,6 +46,8 @@ export class HistoryPage  {
         role: 'destructive',
         handler: async () => {
           await this.storageHandlerService.clearAllStorage();
+          await this.storageHandlerService.clearPrincipalPhoto();
+          
           this.reports = []; // mise à jour de l'affichage
         }
       }

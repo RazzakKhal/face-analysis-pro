@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Browser } from '@capacitor/browser';
 import { PurchasesOfferings, PurchasesPackage } from '@revenuecat/purchases-capacitor';
 import { PaymentService } from 'src/app/handlers/payment.service';
 
@@ -61,4 +62,10 @@ export class PaywallPage implements OnInit {
       this.router.navigateByUrl('/tabs/report')
     }
   }
+
+  async openLegalPage() {
+  await Browser.open({
+    url: 'https://cypress-iguanadon-dd1.notion.site/Privacy-Policy-Terms-Conditions-Face-Analysis-Pro-21393dc01c3380ec82b1f7c8383f2112'
+  });
+}
 }

@@ -14,10 +14,13 @@ export class TakepicturePage {
 
   constructor(private cameraHandler: CameraHandlerService, private storageHandler: StorageHandlerService) { }
 
+    ionViewWillLeave() {
+
+    this.previewUrl = undefined;
+  }
 
   async takePhoto(action: string) {
     try {
-      await this.storageHandler.clearPrincipalPhoto();
       let photo: Photo;
       if (action === 'gallery') {
         photo = await this.cameraHandler.getPhotoFromGallery();

@@ -329,3 +329,7 @@ input:checked + .slider:before {
   font-size: 20px;
   margin-bottom: 4px;
 }
+
+button a {
+    color: inherit;
+}

@@ -15,7 +15,7 @@
 
     <div class="animation-container">
       <img class="face-image"
-        [src]="currentPhoto"
+        [src]="currentPhoto ? currentPhoto : 'assets/face-smile-solid.svg'"
         alt="facial scanning technology">
 
       <div class="scan-overlay">
