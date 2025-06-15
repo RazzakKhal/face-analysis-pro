@@ -1,3 +1,32 @@
+.locked {
+  filter: blur(10px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.unlock-button{
+  display: flex;
+  flex-direction: column;
+  gap : 10px;
+  position: fixed;
+  align-items: center;
+  top: 70%;
+  left: 50%;
+  width: 60%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  background-color: #6366f1;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px 32px;
+  border-radius: 999px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-bottom: 24px;
+}
 
 // Blanc en fond
 .header-white,
@@ -31,6 +60,7 @@
 .detailed-results-content {
   --background: #f7f9fc;
   padding: 24px 16px 60px;
+  position: relative;
 }
 
 #results-page {

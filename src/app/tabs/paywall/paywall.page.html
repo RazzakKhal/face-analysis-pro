@@ -53,9 +53,13 @@
         <div class="plan-header">
           <div>
             <h3>Annual Plan</h3>
-            <div class="price">
-              <span class="old">€49.99</span>
-              <span class="new">€4.99</span>
+            <div class="price" *ngIf="subscriptions?.current?.annual?.product as product">
+              <span class="old">
+                {{ product.price * 10 | currency:product.currencyCode:'symbol':'1.2-2' }}
+              </span>
+              <span class="new">
+                {{ product.price | currency:product.currencyCode:'symbol':'1.2-2' }}
+              </span>
               <span class="period">/ year</span>
             </div>
           </div>
@@ -67,7 +71,10 @@
         <div class="plan-header">
           <div>
             <h3>3-Day Trial</h3>
-            <div class="price-info">then €2.99 per week</div>
+            <div class="price-info">
+              then {{ this.subscriptions?.current?.weekly?.product?.price |
+              currency:this.subscriptions?.current?.weekly?.product?.currencyCode:'symbol':'1.2-2' }} per week
+            </div>
           </div>
           <div class="trial-status">
             <span>FREE</span>
@@ -78,25 +85,26 @@
     </div>
 
     <!-- Trial Toggle -->
-    <div class="trial-toggle" >
+    <div class="trial-toggle">
       <span>Free trial enabled</span>
       <label class="switch">
-        <input (change)="freeTrialToggle()" type="checkbox" checked>
-        <span class="slider"></span>
+        <input (change)="freeTrialToggle()" type="checkbox" [checked]="freeTrial" disabled>
+        <span class="slider" [class.slider-active]="freeTrial" [class.slider-deactivate]="!freeTrial"></span>
       </label>
     </div>
 
     <!-- CTA Button -->
-    <div class="cta-button">
+    <div class="cta-button" (click)="makePurchase()">
       <button>
-        Try for Free
+        View my facial analysis
         <i class="fa-solid fa-arrow-right"></i>
       </button>
+
     </div>
 
     <!-- Legal Links -->
     <div class="legal-links">
-      <button>Restore</button>
+      <button (click)="restoreSubscription()">Restore</button>
       <button>Terms of Use &amp; Privacy Policy</button>
     </div>
 

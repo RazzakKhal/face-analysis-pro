@@ -5,6 +5,7 @@ import { AnalyzeApiService } from 'src/app/handlers/analyze-api.service';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 import { forkJoin, interval, Observable, Subscription, takeWhile, tap } from 'rxjs';
 import { PhotoHandlerService } from 'src/app/handlers/photo-handler.service';
+import { PaymentService } from 'src/app/handlers/payment.service';
 
 @Component({
   selector: 'app-scan',
@@ -24,7 +25,8 @@ export class ScanPage {
     private storageHandlerService: StorageHandlerService,
     private router: Router,
     private alertController: AlertController,
-    private photoHandlerService: PhotoHandlerService
+    private photoHandlerService: PhotoHandlerService,
+    private paymentService : PaymentService
   ) { }
 
   async ionViewWillEnter() {
@@ -54,6 +56,10 @@ export class ScanPage {
   }
 
   async makeAnalyze() {
+    const isPremium = await this.paymentService.checkPremium();
+    if (!isPremium) {
+        this.paymentService.isCustomerSubject.next(false)
+    } 
     await this.storageHandlerService.clearCongratulation()
     const photo = await this.storageHandlerService.getPrincipalPhoto();
     if (!photo) {

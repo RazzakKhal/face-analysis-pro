@@ -26,9 +26,12 @@
     <div id="score-summary">
       <p class="score-label">Your facial proportions are unique. Discover what makes you truly special below.</p>
     </div>
-
+<button class="unlock-button" routerLink="/tabs/paywall" *ngIf="!isCustomer">
+     <span>Unlock full analysis</span>  <i class="fa-solid fa-lock"></i>
+    </button>
     <!-- Measurements Container -->
-    <div id="measurements-container">
+    <div id="measurements-container" [class.locked]="!this.isCustomer">
+      
       <!-- Global Measurement -->
       <div class="measurement-card">
         <div class="card-header blue-header">

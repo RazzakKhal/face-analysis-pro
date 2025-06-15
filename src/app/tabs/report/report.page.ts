@@ -3,6 +3,7 @@ import * as confetti from 'canvas-confetti';
 import { AlertController } from '@ionic/angular';
 import { StorageHandlerService } from 'src/app/handlers/storage-handler.service';
 import { GlobalReport } from 'src/app/models/interfaces/report';
+import { PaymentService } from 'src/app/handlers/payment.service';
 
 @Component({
   selector: 'app-report',
@@ -14,6 +15,7 @@ export class ReportPage {
 
   @ViewChild('confettiCanvas', { static: true }) confettiCanvas!: ElementRef<HTMLCanvasElement>;
 
+  isCustomer = false;
   globalReport!: GlobalReport;
   idealRatios = {
     height_width: 1.46,
@@ -24,11 +26,11 @@ export class ReportPage {
     eye_ratio: 3.0
   };
 
-  constructor(private storageHandlerService: StorageHandlerService, private alertController: AlertController
+  constructor(private storageHandlerService: StorageHandlerService, private alertController: AlertController, private paymentService : PaymentService
   ) { }
 
   async ionViewDidEnter() {
-
+    this.paymentService.isCustomerSubject.subscribe((resp : boolean) => this.isCustomer = resp)
 
     this.globalReport = await this.storageHandlerService.getFullReport() as GlobalReport;
 
