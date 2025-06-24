@@ -65,7 +65,7 @@ export class PaywallPage implements OnInit {
 
   async openLegalPage() {
   await Browser.open({
-    url: 'https://cypress-iguanadon-dd1.notion.site/Privacy-Policy-Terms-Conditions-Face-Analysis-Pro-21393dc01c3380ec82b1f7c8383f2112'
+    url: 'https://tidy-fernleaf-538.notion.site/Privacy-Policy-Terms-Conditions-Face-Analysis-Pro-215608b77f64801f9a31d64548441119?pvs=74'
   });
 }
 }

@@ -178,6 +178,10 @@
 .price-info {
   color: var(--gray-600);
   font-size: 14px;
+  span{
+    font-size: 18px;
+    font-weight: 700;
+  }
 }
 .trial-status {
   display: flex;
